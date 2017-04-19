@@ -16,6 +16,7 @@
 		71798BC61EA7164400A5D55B /* IvarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71798BBD1EA7164400A5D55B /* IvarObject.swift */; };
 		71798BC71EA7164400A5D55B /* IvarToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71798BBE1EA7164400A5D55B /* IvarToken.swift */; };
 		71798BC81EA7164400A5D55B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71798BBF1EA7164400A5D55B /* Token.swift */; };
+		71798BCD1EA71D5200A5D55B /* Swift.Binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 71798BCB1EA71C9900A5D55B /* Swift.Binary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		OBJ_45 /* SwiftBinaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* SwiftBinaryTests.swift */; };
 		OBJ_47 /* SwiftBinary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* SwiftBinary.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,9 @@
 		71798BBD1EA7164400A5D55B /* IvarObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IvarObject.swift; path = Sources/IvarObject.swift; sourceTree = "<group>"; };
 		71798BBE1EA7164400A5D55B /* IvarToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IvarToken.swift; path = Sources/IvarToken.swift; sourceTree = "<group>"; };
 		71798BBF1EA7164400A5D55B /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Sources/Token.swift; sourceTree = "<group>"; };
+		71798BC91EA71BA300A5D55B /* Swift_Binary_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Swift_Binary_Info.plist; path = Swift.Binary.xcodeproj/Swift_Binary_Info.plist; sourceTree = "<group>"; };
+		71798BCA1EA71BAE00A5D55B /* Swift_BinaryTests_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Swift_BinaryTests_Info.plist; path = Swift.Binary.xcodeproj/Swift_BinaryTests_Info.plist; sourceTree = "<group>"; };
+		71798BCB1EA71C9900A5D55B /* Swift.Binary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Swift.Binary.h; path = Sources/Swift.Binary.h; sourceTree = "<group>"; };
 		OBJ_21 /* SwiftBinaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryTests.swift; sourceTree = "<group>"; };
 		OBJ_23 /* SwiftBinary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftBinary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_24 /* Swift.BinaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = Swift.BinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +74,7 @@
 		OBJ_19 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				71798BCA1EA71BAE00A5D55B /* Swift_BinaryTests_Info.plist */,
 				OBJ_20 /* SwiftBinaryTests */,
 			);
 			name = Tests;
@@ -117,17 +122,31 @@
 				71798BBD1EA7164400A5D55B /* IvarObject.swift */,
 				71798BBE1EA7164400A5D55B /* IvarToken.swift */,
 				71798BBF1EA7164400A5D55B /* Token.swift */,
+				71798BCB1EA71C9900A5D55B /* Swift.Binary.h */,
+				71798BC91EA71BA300A5D55B /* Swift_Binary_Info.plist */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		71798BCC1EA71D4A00A5D55B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71798BCD1EA71D5200A5D55B /* Swift.Binary.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		OBJ_25 /* SwiftBinary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_26 /* Build configuration list for PBXNativeTarget "SwiftBinary" */;
 			buildPhases = (
+				71798BCC1EA71D4A00A5D55B /* Headers */,
 				OBJ_29 /* Sources */,
 				OBJ_39 /* Frameworks */,
 			);
@@ -249,14 +268,14 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.Swift-Binary";
-				PRODUCT_MODULE_NAME = SwiftBinary;
-				PRODUCT_NAME = SwiftBinary;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGET_NAME = Swift.Binary;
 				VALID_ARCHS = "osx i386 arm64 armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -281,13 +300,12 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.insanitech.Swift-Binary";
-				PRODUCT_MODULE_NAME = SwiftBinary;
-				PRODUCT_NAME = SwiftBinary;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
-				TARGET_NAME = Swift.Binary;
 				VALID_ARCHS = "osx i386 arm64 armv7s armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
