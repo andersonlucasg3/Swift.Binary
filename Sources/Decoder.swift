@@ -5,6 +5,10 @@
 import Foundation
 
 public class Decoder {
+	public init() {
+		
+	}
+	
 	public func decode(fromData data: Data, intoObject instance: AnyObject) throws {
 		let object = try IvarObject()
 		try object.decode(data: data)
