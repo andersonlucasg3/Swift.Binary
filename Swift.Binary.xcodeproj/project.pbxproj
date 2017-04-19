@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		71798BA21EA70A5500A5D55B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../Swift.Json/README.md; sourceTree = "<group>"; };
+		71798BA21EA70A5500A5D55B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71798BA31EA70A5500A5D55B /* Swift.Binary.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Swift.Binary.podspec; sourceTree = "<group>"; };
 		OBJ_10 /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		OBJ_12 /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
