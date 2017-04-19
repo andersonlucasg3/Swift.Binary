@@ -5,6 +5,10 @@
 import Foundation
 
 public class Encoder {
+	public init() {
+		
+	}
+	
 	public func encode(object: AnyObject) throws -> Data {
 		let object = try self.encodeObject(ofObject: object)
 		return try object.encode()
