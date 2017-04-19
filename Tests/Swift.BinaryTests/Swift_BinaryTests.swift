@@ -1,5 +1,5 @@
 import XCTest
-@testable import Swift_Binary
+@testable import SwiftBinary
 
 class SubClass : NSObject {
 	dynamic var value: Int = 10
