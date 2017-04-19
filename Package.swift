@@ -3,7 +3,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftBinary",
     targets: [
-		Target(name: "Swift.Binary")
+		Target(name: "SwiftBinary")
 	],
     dependencies: [
 	]
