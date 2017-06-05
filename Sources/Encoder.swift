@@ -2,8 +2,6 @@
 // Created by Anderson Lucas C. Ramos on 17/04/17.
 //
 
-#if os(iOS) || os(OSX)
-
 import Foundation
 
 public class Encoder {
@@ -73,7 +71,11 @@ public class Encoder {
 			if typeInfo.isArray {
 				return try self.getArray(ofValues: value as! [AnyObject], forKey: key)
 			} else {
+				#if os(Linux)
+				return try self.encodeObject(ofObject: value as! AnyObject, forKey: key)
+				#else
 				return try self.encodeObject(ofObject: value as AnyObject, forKey: key)
+				#endif
 			}
 		}
 	}
@@ -102,7 +104,11 @@ public class Encoder {
 			} else {
 				var array = Array<IvarObject>()
 				for val in values {
+					#if os(Linux)
+					array.append(try self.encodeObject(ofObject: val as! AnyObject))
+					#else
 					array.append(try self.encodeObject(ofObject: val as AnyObject))
+					#endif
 				}
 				return try IvarArray(name: key, value: array)
 			}
@@ -165,5 +171,3 @@ public class Encoder {
 		return (typeName: typeString, isOptional: isOptional, isArray: isArray)
 	}
 }
-
-#endif
