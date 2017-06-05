@@ -2,14 +2,77 @@
 // Created by Anderson Lucas C. Ramos on 08/04/17.
 //
 
-#if os(iOS) || os(OSX)
-
 import Foundation
+
+#if os(Linux)
+
+	public protocol DecoderProtocol : NSObjectProtocol {
+		func mapping(_ value: Any, forKey key: String)
+	}
+
+#endif
 
 public class Decoder {
 	public init() {
 		
 	}
+	
+	#if !os(iOS) && !os(OSX)
+	
+	// MARK: Linux code
+	
+	public func decode(fromData data: Data, intoObject instance: DecoderProtocol) throws {
+		print("starting decoder")
+		let object = try IvarObject()
+		try object.decode(data: data)
+		print("Data decoded")
+		
+		self.mapObject(object, intoObject: instance)
+	}
+	
+	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecoderProtocol) {
+		print("starting mapping")
+		for field in object.value {
+			if let value = self.getAnyObject(value: field) {
+				print("mapping key \(field.name) with value \(value)")
+				instance.mapping(value, forKey: field.name)
+			}
+		}
+	}
+
+	fileprivate func getAnyObject(value: Token) -> Any? {
+		switch value.type.rawValue {
+		case DataType.int8.rawValue: 
+			print("found a int8")
+			return (value as! IvarToken<Int8>).value as Any
+		case DataType.int16.rawValue: 
+			print("founda a int16")
+			return (value as! IvarToken<Int16>).value as Any
+		case DataType.int32.rawValue: 
+			print("found a int32")
+			return (value as! IvarToken<Int32>).value as Any
+		case DataType.int64.rawValue: 
+			print("found a int64")
+			return (value as! IvarToken<Int64>).value as Any
+		case DataType.float.rawValue: 
+			print("found a float")
+			return (value as! IvarToken<Float>).value as Any
+		case DataType.double.rawValue: 
+			print("found a double")
+			return (value as! IvarToken<Double>).value as Any
+		case DataType.data.rawValue: 
+			print("found a Data")
+			return (value as! IvarToken<Data>).value as Any
+		case DataType.string.rawValue: 
+			print("found a String")
+			return (value as! IvarToken<String>).value as Any
+		default: return nil
+		}
+	}
+
+	#else
+
+	// MARK: iOS and Mac OS code
 	
 	public func decode(fromData data: Data, intoObject instance: AnyObject) throws {
 		let object = try IvarObject()
@@ -164,14 +227,14 @@ public class Decoder {
 		case DataType.int16.rawValue: return (value as! IvarToken<Int16>).value as AnyObject
 		case DataType.int32.rawValue: return (value as! IvarToken<Int32>).value as AnyObject
 		case DataType.int64.rawValue: return (value as! IvarToken<Int64>).value as AnyObject
-		case DataType.float.rawValue: return (value: value as! IvarToken<Float>).value as AnyObject
-		case DataType.double.rawValue: return (value: value as! IvarToken<Double>).value as AnyObject
-		case DataType.data.rawValue: return (value: value as! IvarToken<Data>).value as AnyObject
-		case DataType.string.rawValue: return (value: value as! IvarToken<String>).value as AnyObject
+		case DataType.float.rawValue: return (value as! IvarToken<Float>).value as AnyObject
+		case DataType.double.rawValue: return (value as! IvarToken<Double>).value as AnyObject
+		case DataType.data.rawValue: return (value as! IvarToken<Data>).value as AnyObject
+		case DataType.string.rawValue: return (value as! IvarToken<String>).value as AnyObject
 		default: return nil
 		}
 	}
-	
+
 	fileprivate func populateIvarToken<T>(value: IvarToken<T>, intoObject object: AnyObject) {
 		object.setValue(value.value, forKey: value.name)
 	}
@@ -186,6 +249,6 @@ public class Decoder {
 		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
 		return pointer.assumingMemoryBound(to: V.self)
 	}
+	
+	#endif
 }
-
-#endif
