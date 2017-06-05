@@ -2,6 +2,8 @@
 // Created by Anderson Lucas C. Ramos on 17/04/17.
 //
 
+#if os(iOS) || os(OSX)
+
 import Foundation
 
 public class Encoder {
@@ -163,3 +165,5 @@ public class Encoder {
 		return (typeName: typeString, isOptional: isOptional, isArray: isArray)
 	}
 }
+
+#endif

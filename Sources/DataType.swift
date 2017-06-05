@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal enum DataType: UInt8 {
+public enum DataType: UInt8 {
 	case object = 0,
 	     int8 = 1,
 	     int16 = 2,
@@ -26,7 +26,7 @@ internal enum DataType: UInt8 {
 		arrayString = 16,
 		arrayData = 17
 
-	static func isFixedSize<T>(type: T.Type) -> Bool {
+	public static func isFixedSize<T>(type: T.Type) -> Bool {
 		return type == DataType.int8 ||
 			type == DataType.int16 ||
 			type == DataType.int32 ||
@@ -35,7 +35,7 @@ internal enum DataType: UInt8 {
 			type == DataType.double
 	}
 	
-	static func isFixedSize(type: DataType) -> Bool {
+	public static func isFixedSize(type: DataType) -> Bool {
 		return type == DataType.int8 ||
 			type == DataType.int16 ||
 			type == DataType.int32 ||
@@ -44,17 +44,17 @@ internal enum DataType: UInt8 {
 			type == DataType.double
 	}
 
-	static func isSizeable<T>(type: T.Type) -> Bool {
+	public static func isSizeable<T>(type: T.Type) -> Bool {
 		return type == DataType.string ||
 			type == DataType.data
 	}
 	
-	static func isSizeable(type: DataType) -> Bool {
+	public static func isSizeable(type: DataType) -> Bool {
 		return type == DataType.string ||
 			type == DataType.data
 	}
 
-	static func isArray(type: DataType) -> Bool {
+	public static func isArray(type: DataType) -> Bool {
 		switch type {
 		case .arrayObject, .arrayInt8,
 		     .arrayInt16, .arrayInt32,
@@ -67,7 +67,7 @@ internal enum DataType: UInt8 {
 		}
 	}
 	
-	internal func getIvarInstance() throws -> Decodable {
+	public func getIvarInstance() throws -> Decodable {
 		switch self {
 		case .object: return try IvarObject()
 		case .int8: return try IvarToken<Int8>()
@@ -92,7 +92,7 @@ internal enum DataType: UInt8 {
 	}
 }
 
-func ==<T>(type: T.Type, dataType: DataType) -> Bool {
+public func ==<T>(type: T.Type, dataType: DataType) -> Bool {
 	return ((type == Int.self || type == Int64.self) && dataType == .int64) ||
 		(type == Int8.self && dataType == .int8) ||
 		(type == Int16.self && dataType == .int16) ||
@@ -103,6 +103,6 @@ func ==<T>(type: T.Type, dataType: DataType) -> Bool {
 		((type == Data.self || type == NSData.self) && dataType == .data)
 }
 
-func ==<T>(dataType: DataType, type: T.Type) -> Bool {
+public func ==<T>(dataType: DataType, type: T.Type) -> Bool {
 	return type == dataType
 }

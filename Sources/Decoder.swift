@@ -2,6 +2,8 @@
 // Created by Anderson Lucas C. Ramos on 08/04/17.
 //
 
+#if os(iOS) || os(OSX)
+
 import Foundation
 
 public class Decoder {
@@ -185,3 +187,5 @@ public class Decoder {
 		return pointer.assumingMemoryBound(to: V.self)
 	}
 }
+
+#endif
