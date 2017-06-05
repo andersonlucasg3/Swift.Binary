@@ -4,8 +4,8 @@
 
 import Foundation
 
-internal class IvarArray<T> : IvarToken<Array<T>> {
-	internal override func findType() throws {
+public class IvarArray<T> : IvarToken<Array<T>> {
+	public override func findType() throws {
 		let type = T.self
 		if type is Int.Type || type is Int64.Type {
 			self.type = .arrayInt64
@@ -32,7 +32,7 @@ internal class IvarArray<T> : IvarToken<Array<T>> {
 
 	// MARK: encoding implementations
 
-	internal override func encode() throws -> Data {
+	public override func encode() throws -> Data {
 		var data = Data()
 		self.writeOther(self.type.rawValue, info: &data)
 		self.writeString(self.name, into: &data)
@@ -40,7 +40,7 @@ internal class IvarArray<T> : IvarToken<Array<T>> {
 		return data
 	}
 
-	internal override func writeValue(into data: inout Data) throws {
+	public override func writeValue(into data: inout Data) throws {
 		self.writeOther(Int32(self.value.count), info: &data)
 		if DataType.isFixedSize(type: T.self) {
 			for fixed in self.value {
@@ -63,18 +63,18 @@ internal class IvarArray<T> : IvarToken<Array<T>> {
 
 	// MARK: decoding implementations
 
-	internal override func decode(data: Data) throws {
+	public override func decode(data: Data) throws {
 		var bytes = data.withUnsafeBytes({ $0 as UnsafePointer<UInt8> })
 		try self.decode(bytes: &bytes)
 	}
 
-	internal override func decode(bytes: inout UnsafePointer<UInt8>) throws {
+	public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
 		self.type = DataType(rawValue: self.readOther(from: &bytes))
 		self.name = self.readString(from: &bytes)
 		try self.readValue(from: &bytes)
 	}
 
-	internal override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
+	public override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
 		let count = Int(self.readOther(from: &bytes) as Int32)
 
 		self.value = self.getTypedArray() as! [T]
