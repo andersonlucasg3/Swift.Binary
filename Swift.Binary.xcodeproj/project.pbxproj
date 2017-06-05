@@ -113,11 +113,11 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				71798BB91EA7164400A5D55B /* Decoder.swift */,
+				71798BBB1EA7164400A5D55B /* Encoder.swift */,
 				71798BB71EA7164400A5D55B /* DataType.swift */,
 				71798BB81EA7164400A5D55B /* Decodable.swift */,
-				71798BB91EA7164400A5D55B /* Decoder.swift */,
 				71798BBA1EA7164400A5D55B /* Encodable.swift */,
-				71798BBB1EA7164400A5D55B /* Encoder.swift */,
 				71798BBC1EA7164400A5D55B /* IvarArray.swift */,
 				71798BBD1EA7164400A5D55B /* IvarObject.swift */,
 				71798BBE1EA7164400A5D55B /* IvarToken.swift */,
