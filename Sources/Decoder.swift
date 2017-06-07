@@ -4,14 +4,6 @@
 
 import Foundation
 
-#if os(Linux)
-
-	public protocol DecoderProtocol : NSObjectProtocol {
-		func mapping(_ value: Any, forKey key: String)
-	}
-
-#endif
-
 public class Decoder {
 	public init() {
 		
@@ -21,7 +13,7 @@ public class Decoder {
 	
 	// MARK: Linux code
 	
-	public func decode(fromData data: Data, intoObject instance: DecoderProtocol) throws {
+	public func decode(fromData data: Data, intoObject instance: DecodableProtocol) throws {
 		print("starting decoder")
 		let object = try IvarObject()
 		try object.decode(data: data)
@@ -30,12 +22,15 @@ public class Decoder {
 		self.mapObject(object, intoObject: instance)
 	}
 	
-	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecoderProtocol) {
-		print("starting mapping")
-		for field in object.value {
-			if let value = self.getAnyObject(value: field) {
-				print("mapping key \(field.name) with value \(value)")
-				instance.mapping(value, forKey: field.name)
+	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) {
+		let map = instance.mapping()
+		for (key, value) in map {
+			if let ivarValue: Token = object.value.filter({ $0.name == key }).first {
+				if value is DecodableProtocol {
+					self.mapObject(ivarValue as! IvarObject, intoObject: value.pointee as! DecodableProtocol)
+				} else {
+					value.pointee = (ivarValue as! IvarToken<Any>).value
+				}	
 			}
 		}
 	}
