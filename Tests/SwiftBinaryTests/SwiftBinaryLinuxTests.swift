@@ -34,8 +34,8 @@ class Swift_BinaryTests: XCTestCase {
         assert(someObject.code1 == decoded.code1)
         assert(someObject.code2 == decoded.code2)
         assert(someObject.code3 == decoded.code3)
-        assert(someObject.object1?.code4[0] == 1)
-        assert(someObject.object1?.code4[4] == 5)
+        assert(someObject.object1?.code4[0] == 5)
+        assert(someObject.object1?.code4[4] == 1)
     }
 }
 
@@ -45,15 +45,16 @@ class SomeClass : NSObject, Convertable {
     var code3: Float = 0
     var object1: SomeOtherClass? = nil
 
-    func mapping() -> [String: UnsafeMutablePointer<Any>] {
-        self.object1 = SomeOtherClass()
-        return [
-            "code1": &code1 as! UnsafeMutablePointer<Any>,
-            "code2": &code2,
-            "code3": &code3,
-            "object1": &object1
-        ]
-    }
+    func propertyReference(for key: String) -> Any {
+        switch key {
+            case "code1": return self.getParamReference(from: &self.code1)
+            case "code2": return self.getParamReference(from: &self.code2)
+            case "code3": return self.getParamReference(from: &self.code3)
+            default: 
+                self.object1 = SomeOtherClass()
+                return self.getParamReference(from: &self.object1)
+        }
+    } 
 
     func mapObject() -> [String: Any] {
         var object: [String: Any] = [
@@ -71,10 +72,11 @@ class SomeClass : NSObject, Convertable {
 class SomeOtherClass : SomeClass {
     var code4: Array<Int> = [1, 2, 3, 4, 5]
 
-    override func mapping() -> [String: UnsafeMutablePointer<Any>] {
-        var map = super.mapping()
-        map["code4"] = &self.code4
-        return map
+    override func propertyReference(for key: String) -> Any {
+        switch key {
+            case "code4": return self.getParamReference(from: &self.code4)
+            default: return super.propertyReference(for: key)
+        }
     }
 
     override func mapObject() -> [String: Any] {

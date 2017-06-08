@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		716519AF1EE837B80080C008 /* PBXContainerItemProxy */ = {
+		710D179E1EE911300035A4C6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -219,7 +219,7 @@
 		OBJ_50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_25 /* SwiftBinary */;
-			targetProxy = 716519AF1EE837B80080C008 /* PBXContainerItemProxy */;
+			targetProxy = 710D179E1EE911300035A4C6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

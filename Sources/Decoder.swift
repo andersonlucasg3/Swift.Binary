@@ -23,45 +23,53 @@ public class Decoder {
 	}
 	
 	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) {
-		let map = instance.mapping()
-		for (key, value) in map {
-			if let ivarValue: Token = object.value.filter({ $0.name == key }).first {
-				if value is DecodableProtocol {
-					self.mapObject(ivarValue as! IvarObject, intoObject: value.pointee as! DecodableProtocol)
-				} else {
-					value.pointee = (ivarValue as! IvarToken<Any>).value
-				}	
+		var mirror: Mirror? = Mirror(reflecting: instance)
+
+		while mirror != nil {
+			for child in mirror!.children {
+				if let key = child.label, let value = object.value.filter({$0.name == key}).first {
+					print("decoding key \(key) of value \(value)")
+					if child.value is DecodableProtocol {
+						let pointer = instance.propertyReference(for: key) as! UnsafeMutablePointer<DecodableProtocol>
+						self.mapObject(value as! IvarObject, intoObject: pointer.pointee)
+					} else {
+						self.populateProperty(with: value, intoObject: instance)
+					}
+				}
 			}
+
+			mirror = mirror?.superclassMirror
 		}
 	}
 
-	fileprivate func getAnyObject(value: Token) -> Any? {
+	fileprivate func getValue<T>(from token: Token, of type: T.Type) -> T {
+		return (token as! IvarToken<T>).value
+	}
+
+	fileprivate func setProperty<T>(for token: IvarToken<T>, intoObject instance: DecodableProtocol) {
+		print("setting property of type \(T.self) for token \(token) into object \(instance)")
+		let anyPointer = instance.propertyReference(for: token.name)
+		// this check needs to be made because Int is always Int64
+		if anyPointer is UnsafeMutablePointer<Int> {
+			let pointer = anyPointer as! UnsafeMutablePointer<Int>
+			pointer.pointee = Int(token.value as! Int64)
+		} else {
+			let pointer = anyPointer as! UnsafeMutablePointer<T>
+			pointer.pointee = token.value
+		}
+	}
+
+	fileprivate func populateProperty(with value: Token, intoObject instance: DecodableProtocol) {
 		switch value.type.rawValue {
-		case DataType.int8.rawValue: 
-			print("found a int8")
-			return (value as! IvarToken<Int8>).value as Any
-		case DataType.int16.rawValue: 
-			print("founda a int16")
-			return (value as! IvarToken<Int16>).value as Any
-		case DataType.int32.rawValue: 
-			print("found a int32")
-			return (value as! IvarToken<Int32>).value as Any
-		case DataType.int64.rawValue: 
-			print("found a int64")
-			return (value as! IvarToken<Int64>).value as Any
-		case DataType.float.rawValue: 
-			print("found a float")
-			return (value as! IvarToken<Float>).value as Any
-		case DataType.double.rawValue: 
-			print("found a double")
-			return (value as! IvarToken<Double>).value as Any
-		case DataType.data.rawValue: 
-			print("found a Data")
-			return (value as! IvarToken<Data>).value as Any
-		case DataType.string.rawValue: 
-			print("found a String")
-			return (value as! IvarToken<String>).value as Any
-		default: return nil
+		case DataType.int8.rawValue: self.setProperty(for: value as! IvarToken<Int8>, intoObject: instance); break 
+		case DataType.int16.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case DataType.int32.rawValue: self.setProperty(for: value as! IvarToken<Int32>, intoObject: instance); break
+		case DataType.int64.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case DataType.float.rawValue: self.setProperty(for: value as! IvarToken<Float>, intoObject: instance); break
+		case DataType.double.rawValue: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
+		case DataType.data.rawValue: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
+		case DataType.string.rawValue: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
+		default: break
 		}
 	}
 

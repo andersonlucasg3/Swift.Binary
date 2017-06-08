@@ -7,7 +7,7 @@
 import Foundation
 
 public protocol DecodableProtocol : NSObjectProtocol {
-    func mapping() -> [String: UnsafeMutablePointer<Any>]
+    func propertyReference(for key: String) -> Any
 }
 
 public protocol EncodableProtocol : NSObjectProtocol {
@@ -15,7 +15,13 @@ public protocol EncodableProtocol : NSObjectProtocol {
 }
 
 protocol Convertable: EncodableProtocol, DecodableProtocol {
-    
+
+}
+
+extension Convertable {
+    func getParamReference<T>(from: inout T) -> Any {
+        return UnsafeMutablePointer<T>(&from)
+    }
 }
 
 #endif
