@@ -2,14 +2,80 @@
 // Created by Anderson Lucas C. Ramos on 08/04/17.
 //
 
-#if os(iOS) || os(OSX)
-
 import Foundation
 
 public class Decoder {
 	public init() {
 		
 	}
+	
+	#if !os(iOS) && !os(OSX)
+	
+	// MARK: Linux code
+	
+	public func decode(fromData data: Data, intoObject instance: DecodableProtocol) throws {
+		print("starting decoder")
+		let object = try IvarObject()
+		try object.decode(data: data)
+		print("Data decoded")
+		
+		self.mapObject(object, intoObject: instance)
+	}
+	
+	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) {
+		var mirror: Mirror? = Mirror(reflecting: instance)
+
+		while mirror != nil {
+			for child in mirror!.children {
+				if let key = child.label, let value = object.value.filter({$0.name == key}).first {
+					print("decoding key \(key) of value \(value)")
+					if child.value is DecodableProtocol {
+						let pointer = instance.propertyReference(for: key) as! UnsafeMutablePointer<DecodableProtocol>
+						self.mapObject(value as! IvarObject, intoObject: pointer.pointee)
+					} else {
+						self.populateProperty(with: value, intoObject: instance)
+					}
+				}
+			}
+
+			mirror = mirror?.superclassMirror
+		}
+	}
+
+	fileprivate func getValue<T>(from token: Token, of type: T.Type) -> T {
+		return (token as! IvarToken<T>).value
+	}
+
+	fileprivate func setProperty<T>(for token: IvarToken<T>, intoObject instance: DecodableProtocol) {
+		print("setting property of type \(T.self) for token \(token) into object \(instance)")
+		let anyPointer = instance.propertyReference(for: token.name)
+		// this check needs to be made because Int is always Int64
+		if anyPointer is UnsafeMutablePointer<Int> {
+			let pointer = anyPointer as! UnsafeMutablePointer<Int>
+			pointer.pointee = Int(token.value as! Int64)
+		} else {
+			let pointer = anyPointer as! UnsafeMutablePointer<T>
+			pointer.pointee = token.value
+		}
+	}
+
+	fileprivate func populateProperty(with value: Token, intoObject instance: DecodableProtocol) {
+		switch value.type.rawValue {
+		case DataType.int8.rawValue: self.setProperty(for: value as! IvarToken<Int8>, intoObject: instance); break 
+		case DataType.int16.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case DataType.int32.rawValue: self.setProperty(for: value as! IvarToken<Int32>, intoObject: instance); break
+		case DataType.int64.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case DataType.float.rawValue: self.setProperty(for: value as! IvarToken<Float>, intoObject: instance); break
+		case DataType.double.rawValue: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
+		case DataType.data.rawValue: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
+		case DataType.string.rawValue: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
+		default: break
+		}
+	}
+
+	#else
+
+	// MARK: iOS and Mac OS code
 	
 	public func decode(fromData data: Data, intoObject instance: AnyObject) throws {
 		let object = try IvarObject()
@@ -164,14 +230,14 @@ public class Decoder {
 		case DataType.int16.rawValue: return (value as! IvarToken<Int16>).value as AnyObject
 		case DataType.int32.rawValue: return (value as! IvarToken<Int32>).value as AnyObject
 		case DataType.int64.rawValue: return (value as! IvarToken<Int64>).value as AnyObject
-		case DataType.float.rawValue: return (value: value as! IvarToken<Float>).value as AnyObject
-		case DataType.double.rawValue: return (value: value as! IvarToken<Double>).value as AnyObject
-		case DataType.data.rawValue: return (value: value as! IvarToken<Data>).value as AnyObject
-		case DataType.string.rawValue: return (value: value as! IvarToken<String>).value as AnyObject
+		case DataType.float.rawValue: return (value as! IvarToken<Float>).value as AnyObject
+		case DataType.double.rawValue: return (value as! IvarToken<Double>).value as AnyObject
+		case DataType.data.rawValue: return (value as! IvarToken<Data>).value as AnyObject
+		case DataType.string.rawValue: return (value as! IvarToken<String>).value as AnyObject
 		default: return nil
 		}
 	}
-	
+
 	fileprivate func populateIvarToken<T>(value: IvarToken<T>, intoObject object: AnyObject) {
 		object.setValue(value.value, forKey: value.name)
 	}
@@ -186,6 +252,6 @@ public class Decoder {
 		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
 		return pointer.assumingMemoryBound(to: V.self)
 	}
+	
+	#endif
 }
-
-#endif

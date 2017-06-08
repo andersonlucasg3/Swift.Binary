@@ -17,7 +17,7 @@
                BlueprintIdentifier = "OBJ_25"
                BuildableName = "SwiftBinary.framework"
                BlueprintName = "SwiftBinary"
-               ReferencedContainer = "container:Swift.Binary.xcodeproj">
+               ReferencedContainer = "container:SwiftBinary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_40"
-               BuildableName = "Swift.BinaryTests.xctest"
+               BlueprintIdentifier = "OBJ_41"
+               BuildableName = "SwiftBinaryTests.xctest"
                BlueprintName = "SwiftBinaryTests"
-               ReferencedContainer = "container:Swift.Binary.xcodeproj">
+               ReferencedContainer = "container:SwiftBinary.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "OBJ_25"
             BuildableName = "SwiftBinary.framework"
             BlueprintName = "SwiftBinary"
-            ReferencedContainer = "container:Swift.Binary.xcodeproj">
+            ReferencedContainer = "container:SwiftBinary.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

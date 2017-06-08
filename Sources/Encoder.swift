@@ -2,14 +2,47 @@
 // Created by Anderson Lucas C. Ramos on 17/04/17.
 //
 
-#if os(iOS) || os(OSX)
-
 import Foundation
 
 public class Encoder {
 	public init() {
 		
 	}
+
+	#if !os(iOS) && !os(OSX)
+
+	// MARK: Linux code
+	
+	public func encode(object: EncodableProtocol) throws -> Data {
+		print("encode: \(object)")
+		let ivarObject = try self.convert(object: object)
+		return try ivarObject.encode()
+	}
+
+	fileprivate func convert(object: EncodableProtocol, forKey key: String = "") throws -> IvarObject {
+		print("converting \(object) for key \(key)")
+		var tokens = Array<Token>()
+
+		let dict = object.mapObject()
+		for (key, value) in dict {
+			if value is EncodableProtocol {
+				print("founda a encodableProtocol")
+				tokens.append(try self.convert(object: value as! EncodableProtocol, forKey: key))
+			} else {
+				print("found a value of type \(type(of: value))")
+				tokens.append(try self.getType(forValue: value, andKey: key))
+			}
+		}
+		return try IvarObject(name: key, value: tokens)
+	}
+
+	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
+		return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+	}
+
+	#else
+	
+	// MARK: iOS and Mac OS code
 	
 	public func encode(object: AnyObject) throws -> Data {
 		let object = try self.encodeObject(ofObject: object)
@@ -38,6 +71,8 @@ public class Encoder {
 		return try! IvarObject(name: key ?? "", value: tokens)
 	}
 	
+	#endif
+
 	fileprivate func getType(forValue value: Any, andKey key: String) throws -> Token {
 		if value is String || value is NSString {
 			return try self.getAnyType(forValue: value as! String, andKey: key)
@@ -71,9 +106,13 @@ public class Encoder {
 			let typeInfo = self.parseTypeString("\(type)")
 
 			if typeInfo.isArray {
-				return try self.getArray(ofValues: value as! [AnyObject], forKey: key)
+				return try self.getArray(ofValues: value as! [Any], forKey: key)
 			} else {
+				#if os(Linux)
+				return try self.encodeObject(ofObject: value as! AnyObject, forKey: key)
+				#else
 				return try self.encodeObject(ofObject: value as AnyObject, forKey: key)
+				#endif
 			}
 		}
 	}
@@ -100,9 +139,14 @@ public class Encoder {
 			} else if value is Double {
 				return try self.getAnyArray(ofValues: values as! [Double], forKey: key) as IvarArray<Double>
 			} else {
+				print("Se estiver quebrando aqui esta muito errado!")
 				var array = Array<IvarObject>()
 				for val in values {
+					#if os(Linux)
+					array.append(try self.encodeObject(ofObject: val as! AnyObject))
+					#else
 					array.append(try self.encodeObject(ofObject: val as AnyObject))
+					#endif
 				}
 				return try IvarArray(name: key, value: array)
 			}
@@ -165,5 +209,3 @@ public class Encoder {
 		return (typeName: typeString, isOptional: isOptional, isArray: isArray)
 	}
 }
-
-#endif
