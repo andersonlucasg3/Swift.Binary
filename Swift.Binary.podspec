@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
     spec.name                   = 'Swift.Binary'
-    spec.version                = '0.1.1'
+    spec.version                = '0.1.2'
     spec.summary                = 'Binary auto-[encoder/decoder] for Swift 3.'
 
     spec.homepage               = 'https://github.com/andersonlucasg3/Swift.Binary'

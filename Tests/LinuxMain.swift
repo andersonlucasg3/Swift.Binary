@@ -1,5 +1,5 @@
 import XCTest
-@testable import Swift_BinaryTests
+@testable import SwiftBinaryTests
 
 XCTMain([
     testCase(Swift_BinaryTests.allTests),

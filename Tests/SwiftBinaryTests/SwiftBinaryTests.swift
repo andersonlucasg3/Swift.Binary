@@ -1,3 +1,5 @@
+#if os(iOS) || os(OSX)
+
 import XCTest
 @testable import SwiftBinary
 
@@ -177,3 +179,5 @@ class Swift_BinaryTests: XCTestCase {
 		assert(command.emptyArray.count == 0)
 	}
 }
+
+#endif
