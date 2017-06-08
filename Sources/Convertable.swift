@@ -14,11 +14,11 @@ public protocol EncodableProtocol : NSObjectProtocol {
     func mapObject() -> [String: Any]
 }
 
-protocol Convertable: EncodableProtocol, DecodableProtocol {
+public protocol Convertable: EncodableProtocol, DecodableProtocol {
 
 }
 
-extension Convertable {
+public extension Convertable {
     func getParamReference<T>(from: inout T) -> Any {
         return UnsafeMutablePointer<T>(&from)
     }
