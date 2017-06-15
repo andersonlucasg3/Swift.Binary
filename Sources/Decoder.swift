@@ -30,7 +30,7 @@ public class Decoder {
 				if let key = child.label, let value = object.value.filter({$0.name == key}).first {
 					print("decoding key \(key) of value \(value)")
 					if child.value is DecodableProtocol {
-						let pointer = instance.propertyReference(for: key) as! UnsafeMutablePointer<DecodableProtocol>
+						let pointer = instance.propertyRef(for: key) as! UnsafeMutablePointer<DecodableProtocol>
 						self.mapObject(value as! IvarObject, intoObject: pointer.pointee)
 					} else {
 						self.populateProperty(with: value, intoObject: instance)
@@ -48,7 +48,7 @@ public class Decoder {
 
 	fileprivate func setProperty<T>(for token: IvarToken<T>, intoObject instance: DecodableProtocol) {
 		print("setting property of type \(T.self) for token \(token) into object \(instance)")
-		let anyPointer = instance.propertyReference(for: token.name)
+		let anyPointer = instance.propertyRef(for: token.name)
 		// this check needs to be made because Int is always Int64
 		if anyPointer is UnsafeMutablePointer<Int> {
 			let pointer = anyPointer as! UnsafeMutablePointer<Int>
