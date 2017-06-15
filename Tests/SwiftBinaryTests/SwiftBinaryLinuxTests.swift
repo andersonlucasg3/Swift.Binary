@@ -45,14 +45,14 @@ class SomeClass : NSObject, Convertable {
     var code3: Float = 0
     var object1: SomeOtherClass? = nil
 
-    func propertyReference(for key: String) -> Any {
+    func propertyRef(for key: String) -> Any {
         switch key {
-            case "code1": return self.getParamReference(from: &self.code1)
-            case "code2": return self.getParamReference(from: &self.code2)
-            case "code3": return self.getParamReference(from: &self.code3)
+            case "code1": return self.ref(from: &self.code1)
+            case "code2": return self.ref(from: &self.code2)
+            case "code3": return self.ref(from: &self.code3)
             default: 
                 self.object1 = SomeOtherClass()
-                return self.getParamReference(from: &self.object1)
+                return self.ref(from: &self.object1)
         }
     } 
 
@@ -72,10 +72,10 @@ class SomeClass : NSObject, Convertable {
 class SomeOtherClass : SomeClass {
     var code4: Array<Int> = [1, 2, 3, 4, 5]
 
-    override func propertyReference(for key: String) -> Any {
+    override func propertyRef(for key: String) -> Any {
         switch key {
-            case "code4": return self.getParamReference(from: &self.code4)
-            default: return super.propertyReference(for: key)
+            case "code4": return self.ref(from: &self.code4)
+            default: return super.propertyRef(for: key)
         }
     }
 
