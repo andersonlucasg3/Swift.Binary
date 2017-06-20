@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		719C623B1EF362BD00B6DE2E /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719C623A1EF3629F00B6DE2E /* Optional+Extensions.swift */; };
+		719C623D1EF3633B00B6DE2E /* Dictionary+AnyNotNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719C623C1EF3633B00B6DE2E /* Dictionary+AnyNotNil.swift */; };
 		OBJ_30 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Decoder.swift */; };
 		OBJ_31 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
 		OBJ_32 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		719C623A1EF3629F00B6DE2E /* Optional+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
+		719C623C1EF3633B00B6DE2E /* Dictionary+AnyNotNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+AnyNotNil.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		OBJ_11 /* IvarToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarToken.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 				OBJ_15 /* IvarArray.swift */,
 				OBJ_16 /* Convertable.swift */,
 				OBJ_17 /* Token.swift */,
+				719C623A1EF3629F00B6DE2E /* Optional+Extensions.swift */,
+				719C623C1EF3633B00B6DE2E /* Dictionary+AnyNotNil.swift */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -198,7 +204,9 @@
 				OBJ_35 /* Encodable.swift in Sources */,
 				OBJ_36 /* IvarObject.swift in Sources */,
 				OBJ_37 /* IvarArray.swift in Sources */,
+				719C623B1EF362BD00B6DE2E /* Optional+Extensions.swift in Sources */,
 				OBJ_38 /* Convertable.swift in Sources */,
+				719C623D1EF3633B00B6DE2E /* Dictionary+AnyNotNil.swift in Sources */,
 				OBJ_39 /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

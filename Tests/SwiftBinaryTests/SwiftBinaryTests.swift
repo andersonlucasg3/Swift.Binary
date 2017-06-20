@@ -162,10 +162,10 @@ class Swift_BinaryTests: XCTestCase {
 		
 		let first = TestCommand()
 		first.sub = SubClass()
-		let data = try! encoder.encode(object: first)
+		let data = try! encoder.encodeAny(object: first)
 		
 		let command = TestCommand()
-		try! decoder.decode(fromData: data, intoObject: command)
+		try! decoder.decodeAny(fromData: data, intoObject: command)
 		assert(command.int1 == 123)
 		assert(command.int2 == 225)
 		assert(command.string == "Testando")
