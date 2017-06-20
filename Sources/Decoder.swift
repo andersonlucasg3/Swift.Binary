@@ -9,29 +9,39 @@ public class Decoder {
 		
 	}
 	
-	#if !os(iOS) && !os(OSX)
-	
-	// MARK: Linux code
-	
 	public func decode(fromData data: Data, intoObject instance: DecodableProtocol) throws {
 		print("starting decoder")
 		let object = try IvarObject()
 		try object.decode(data: data)
 		print("Data decoded")
 		
-		self.mapObject(object, intoObject: instance)
+		try self.mapObject(object, intoObject: instance)
 	}
 	
-	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) {
+	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) throws {
 		var mirror: Mirror? = Mirror(reflecting: instance)
 
 		while mirror != nil {
 			for child in mirror!.children {
 				if let key = child.label, let value = object.value.filter({$0.name == key}).first {
 					print("decoding key \(key) of value \(value)")
-					if child.value is DecodableProtocol {
+					if child.value is OptionalProtocol {
+						let optionalValue = child.value as! OptionalProtocol
+						if optionalValue.isDecodable() {
+							let pointer = instance.propertyRef(for: key) as! UnsafeMutablePointer<Optional<DecodableProtocol>>
+							if pointer.pointee.isSome() {
+								let unwrapped = pointer.pointee.unwrap() as! DecodableProtocol
+								try self.mapObject(value as! IvarObject, intoObject: unwrapped)
+								pointer.pointee = Optional(unwrapped)
+							} else {
+								throw NSError(domain: "You MUST provide a instance of \(pointer.pointee.wrappedType()) for field \(key)", code: -1)
+							}
+						} else {
+							self.populateProperty(with: value, intoObject: instance)
+						}
+					} else if child.value is DecodableProtocol {
 						let pointer = instance.propertyRef(for: key) as! UnsafeMutablePointer<DecodableProtocol>
-						self.mapObject(value as! IvarObject, intoObject: pointer.pointee)
+						try self.mapObject(value as! IvarObject, intoObject: pointer.pointee)
 					} else {
 						self.populateProperty(with: value, intoObject: instance)
 					}
@@ -53,6 +63,9 @@ public class Decoder {
 		if anyPointer is UnsafeMutablePointer<Int> {
 			let pointer = anyPointer as! UnsafeMutablePointer<Int>
 			pointer.pointee = Int(token.value as! Int64)
+		} else if anyPointer is UnsafeMutablePointer<T?> {
+			let pointer = anyPointer as! UnsafeMutablePointer<T?>
+			pointer.pointee = token.value
 		} else {
 			let pointer = anyPointer as! UnsafeMutablePointer<T>
 			pointer.pointee = token.value
@@ -73,11 +86,11 @@ public class Decoder {
 		}
 	}
 
-	#else
+	#if os(iOS) || os(OSX)
 
 	// MARK: iOS and Mac OS code
 	
-	public func decode(fromData data: Data, intoObject instance: AnyObject) throws {
+	public func decodeAny(fromData data: Data, intoObject instance: AnyObject) throws {
 		let object = try IvarObject()
 		try object.decode(data: data)
 

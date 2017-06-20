@@ -9,10 +9,6 @@ public class Encoder {
 		
 	}
 
-	#if !os(iOS) && !os(OSX)
-
-	// MARK: Linux code
-	
 	public func encode(object: EncodableProtocol) throws -> Data {
 		print("encode: \(object)")
 		let ivarObject = try self.convert(object: object)
@@ -37,19 +33,26 @@ public class Encoder {
 	}
 
 	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
+		#if os(iOS) || os(OSX)
+		if obj is EncodableProtocol {
+			return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		}
+		return try self.encodeObjectByMirror(ofObject:obj, forKey:key)
+		#else
 		return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		#endif
 	}
 
-	#else
+	#if os(iOS) || os(OSX)
 	
 	// MARK: iOS and Mac OS code
 	
-	public func encode(object: AnyObject) throws -> Data {
+	public func encodeAny(object: AnyObject) throws -> Data {
 		let object = try self.encodeObject(ofObject: object)
 		return try object.encode()
 	}
 
-	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
+	fileprivate func encodeObjectByMirror(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
 		var tokens = Array<Token>()
 
 		var cls: Mirror? = Mirror(reflecting: obj)

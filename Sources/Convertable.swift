@@ -2,15 +2,13 @@
 // Created by Anderson Lucas C. Ramos on 07/06/17.
 //
 
-#if os(Linux)
-
 import Foundation
 
-public protocol DecodableProtocol : NSObjectProtocol {
+public protocol DecodableProtocol {
     func propertyRef(for key: String) -> Any
 }
 
-public protocol EncodableProtocol : NSObjectProtocol {
+public protocol EncodableProtocol {
     func mapObject() -> [String: Any]
 }
 
@@ -23,5 +21,3 @@ public extension Convertable {
         return UnsafeMutablePointer<T>(&from)
     }
 }
-
-#endif
