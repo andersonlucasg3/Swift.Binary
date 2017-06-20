@@ -9,10 +9,6 @@ public class Encoder {
 		
 	}
 
-	#if !os(iOS) && !os(OSX)
-
-	// MARK: Linux code
-	
 	public func encode(object: EncodableProtocol) throws -> Data {
 		print("encode: \(object)")
 		let ivarObject = try self.convert(object: object)
@@ -25,11 +21,19 @@ public class Encoder {
 
 		let dict = object.mapObject()
 		for (key, value) in dict {
-			if value is EncodableProtocol {
+			if value is OptionalProtocol {
+				let optionalValue = value as! OptionalProtocol
+				if optionalValue.isSome() && optionalValue.isEncodable() {
+					print("founda a optional encodableProtocol")
+					tokens.append(try self.convert(object: optionalValue.unwrap() as! EncodableProtocol, forKey: key))
+				} else if optionalValue.isSome() {
+					tokens.append(try self.getType(forValue: optionalValue.unwrap(), andKey: key))
+				}
+			} else if value is EncodableProtocol {
 				print("founda a encodableProtocol")
 				tokens.append(try self.convert(object: value as! EncodableProtocol, forKey: key))
 			} else {
-				print("found a value of type \(type(of: value))")
+				print("found a value of type \(type(of: value)) for key \(key)")
 				tokens.append(try self.getType(forValue: value, andKey: key))
 			}
 		}
@@ -37,19 +41,26 @@ public class Encoder {
 	}
 
 	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
+		#if os(iOS) || os(OSX)
+		if obj is EncodableProtocol {
+			return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		}
+		return try self.encodeObjectByMirror(ofObject:obj, forKey:key)
+		#else
 		return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		#endif
 	}
 
-	#else
+	#if os(iOS) || os(OSX)
 	
 	// MARK: iOS and Mac OS code
 	
-	public func encode(object: AnyObject) throws -> Data {
+	public func encodeAny(object: AnyObject) throws -> Data {
 		let object = try self.encodeObject(ofObject: object)
 		return try object.encode()
 	}
 
-	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
+	fileprivate func encodeObjectByMirror(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
 		var tokens = Array<Token>()
 
 		var cls: Mirror? = Mirror(reflecting: obj)
