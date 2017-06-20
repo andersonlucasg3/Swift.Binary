@@ -18,7 +18,7 @@ public class Decoder {
 		try self.mapObject(object, intoObject: instance)
 	}
 	
-	fileprivate func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) throws {
+	func mapObject(_ object: IvarObject, intoObject instance: DecodableProtocol) throws {
 		var mirror: Mirror? = Mirror(reflecting: instance)
 
 		while mirror != nil {
@@ -28,14 +28,7 @@ public class Decoder {
 					if child.value is OptionalProtocol {
 						let optionalValue = child.value as! OptionalProtocol
 						if optionalValue.isDecodable() {
-							let pointer = instance.propertyRef(for: key) as! UnsafeMutablePointer<Optional<DecodableProtocol>>
-							if pointer.pointee.isSome() {
-								let unwrapped = pointer.pointee.unwrap() as! DecodableProtocol
-								try self.mapObject(value as! IvarObject, intoObject: unwrapped)
-								pointer.pointee = Optional(unwrapped)
-							} else {
-								throw NSError(domain: "You MUST provide a instance of \(pointer.pointee.wrappedType()) for field \(key)", code: -1)
-							}
+							try instance.manualMapCall(with: self, value: value as! IvarObject, for: instance.propertyRef(for: key))
 						} else {
 							self.populateProperty(with: value, intoObject: instance)
 						}
@@ -63,6 +56,9 @@ public class Decoder {
 		if anyPointer is UnsafeMutablePointer<Int> {
 			let pointer = anyPointer as! UnsafeMutablePointer<Int>
 			pointer.pointee = Int(token.value as! Int64)
+		} else if anyPointer is UnsafeMutablePointer<Array<Int>> {
+			let pointer = anyPointer as! UnsafeMutablePointer<Array<Int>>
+			pointer.pointee = (token.value as! Array<Int64>).map({Int($0)})
 		} else if anyPointer is UnsafeMutablePointer<T?> {
 			let pointer = anyPointer as! UnsafeMutablePointer<T?>
 			pointer.pointee = token.value
@@ -82,6 +78,21 @@ public class Decoder {
 		case DataType.double.rawValue: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
 		case DataType.data.rawValue: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
 		case DataType.string.rawValue: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
+		default:
+			self.populateArrayProperty(with: value, intoObject: instance)
+			break
+		}
+	}
+	
+	fileprivate func populateArrayProperty(with value: Token, intoObject instance: DecodableProtocol) {
+		switch value.type.rawValue {
+		case DataType.arrayInt8.rawValue: self.setProperty(for: value as! IvarArray<Int8>, intoObject: instance); break
+		case DataType.arrayInt16.rawValue: self.setProperty(for: value as! IvarArray<Int16>, intoObject: instance); break
+		case DataType.arrayInt32.rawValue: self.setProperty(for: value as! IvarArray<Int32>, intoObject: instance); break
+		case DataType.arrayInt64.rawValue: self.setProperty(for: value as! IvarArray<Int64>, intoObject: instance); break
+		case DataType.arrayFloat.rawValue: self.setProperty(for: value as! IvarArray<Float>, intoObject: instance); break
+		case DataType.arrayDouble.rawValue: self.setProperty(for: value as! IvarArray<Double>, intoObject: instance); break
+		case DataType.arrayString.rawValue: self.setProperty(for: value as! IvarArray<String>, intoObject: instance); break
 		default: break
 		}
 	}

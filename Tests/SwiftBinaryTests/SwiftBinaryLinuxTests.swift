@@ -52,11 +52,19 @@ class SomeClass : Convertable {
             case "code2": return self.ref(from: &self.code2)
             case "code3": return self.ref(from: &self.code3)
 			case "data1": return self.ref(from: &self.data1)
-            default: 
-                self.object1 = SomeOtherClass()
+            default:
                 return self.ref(from: &self.object1)
         }
-    } 
+    }
+	
+	func manualMapCall(with decoder: Decoder, value: IvarObject, for ref: Any) throws {
+		if value.name == "object1" {
+			let pointer = ref as! UnsafeMutablePointer<Optional<SomeOtherClass>>
+			let instance = SomeOtherClass()
+			try decoder.mapObject(value, intoObject: instance)
+			pointer.pointee = Optional<SomeOtherClass>(instance)
+		}
+	}
 
     func mapObject() -> [String: Any] {
 		var object = Dictionary<String, Any>()

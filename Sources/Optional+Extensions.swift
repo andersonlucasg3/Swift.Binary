@@ -36,7 +36,6 @@ extension Optional : OptionalProtocol {
 	}
 	
 	public func isDecodable() -> Bool {
-		print("type \(Wrapped.self)")
 		return Wrapped.self is DecodableProtocol.Type
 	}
 }
