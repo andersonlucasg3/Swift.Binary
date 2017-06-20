@@ -13,6 +13,7 @@ public protocol OptionalProtocol {
 	func unwrap() -> Any
 	func wrappedType() -> Any.Type
 	func isDecodable() -> Bool
+	func isEncodable() -> Bool
 }
 
 extension Optional : OptionalProtocol {
@@ -37,5 +38,9 @@ extension Optional : OptionalProtocol {
 	
 	public func isDecodable() -> Bool {
 		return Wrapped.self is DecodableProtocol.Type
+	}
+	
+	public func isEncodable() -> Bool {
+		return Wrapped.self is EncodableProtocol.Type
 	}
 }

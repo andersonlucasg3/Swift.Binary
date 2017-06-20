@@ -21,11 +21,19 @@ public class Encoder {
 
 		let dict = object.mapObject()
 		for (key, value) in dict {
-			if value is EncodableProtocol {
+			if value is OptionalProtocol {
+				let optionalValue = value as! OptionalProtocol
+				if optionalValue.isSome() && optionalValue.isEncodable() {
+					print("founda a optional encodableProtocol")
+					tokens.append(try self.convert(object: optionalValue.unwrap() as! EncodableProtocol, forKey: key))
+				} else if optionalValue.isSome() {
+					tokens.append(try self.getType(forValue: optionalValue.unwrap(), andKey: key))
+				}
+			} else if value is EncodableProtocol {
 				print("founda a encodableProtocol")
 				tokens.append(try self.convert(object: value as! EncodableProtocol, forKey: key))
 			} else {
-				print("found a value of type \(type(of: value))")
+				print("found a value of type \(type(of: value)) for key \(key)")
 				tokens.append(try self.getType(forValue: value, andKey: key))
 			}
 		}
