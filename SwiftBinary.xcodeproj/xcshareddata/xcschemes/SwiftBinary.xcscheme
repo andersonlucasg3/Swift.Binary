@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_25"
+               BlueprintIdentifier = "OBJ_27"
                BuildableName = "SwiftBinary.framework"
                BlueprintName = "SwiftBinary"
                ReferencedContainer = "container:SwiftBinary.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_41"
+               BlueprintIdentifier = "OBJ_45"
                BuildableName = "SwiftBinaryTests.xctest"
                BlueprintName = "SwiftBinaryTests"
                ReferencedContainer = "container:SwiftBinary.xcodeproj">
@@ -55,7 +55,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_25"
+            BlueprintIdentifier = "OBJ_27"
             BuildableName = "SwiftBinary.framework"
             BlueprintName = "SwiftBinary"
             ReferencedContainer = "container:SwiftBinary.xcodeproj">
