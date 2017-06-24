@@ -157,8 +157,8 @@ class Swift_BinaryTests: XCTestCase {
 	}
 	
 	func testObjectEncDec() {
-		let encoder = Encoder()
-		let decoder = Decoder()
+		let encoder = ObjectEncoder()
+		let decoder = ObjectDecoder()
 		
 		let first = TestCommand()
 		first.sub = SubClass()

@@ -17,7 +17,7 @@ class SwiftBinaryLinuxTests: XCTestCase {
 
         print("starting encoding ------------------------------")
 
-        let encoder = Encoder()
+        let encoder = ObjectEncoder()
         let data = try! encoder.encode(object: someObject)
 
         print("end of encoding --------------------------------")
@@ -25,7 +25,7 @@ class SwiftBinaryLinuxTests: XCTestCase {
 
         let decoded = SomeClass()
 
-        let decoder = Decoder()
+        let decoder = ObjectDecoder()
         try! decoder.decode(fromData: data, intoObject: decoded)
 
         print("end of decoding ---------------------------------")
@@ -57,7 +57,7 @@ class SomeClass : Convertable {
         }
     }
 	
-	func manualMapCall(with decoder: Decoder, value: IvarObject, for ref: Any) throws {
+	func manualMapCall(with decoder: ObjectDecoder, value: IvarObject, for ref: Any) throws {
 		if value.name == "object1" {
 			let pointer = ref as! UnsafeMutablePointer<Optional<SomeOtherClass>>
 			let instance = SomeOtherClass()
