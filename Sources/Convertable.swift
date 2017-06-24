@@ -6,7 +6,7 @@ import Foundation
 
 public protocol DecodableProtocol {
     func propertyRef(for key: String) -> Any
-	func manualMapCall(with decoder: Decoder, value: IvarObject, for ref: Any) throws
+	func manualMapCall(with decoder: ObjectDecoder, value: IvarObject, for ref: Any) throws
 }
 
 public protocol EncodableProtocol {
