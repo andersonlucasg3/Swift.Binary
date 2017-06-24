@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class Encoder {
+public class ObjectEncoder {
 	public init() {
 		
 	}

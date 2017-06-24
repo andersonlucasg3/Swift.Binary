@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		OBJ_32 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Decoder.swift */; };
+		OBJ_32 /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* ObjectDecoder.swift */; };
 		OBJ_33 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
 		OBJ_34 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
 		OBJ_35 /* IvarToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* IvarToken.swift */; };
-		OBJ_36 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Encoder.swift */; };
+		OBJ_36 /* ObjectEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ObjectEncoder.swift */; };
 		OBJ_37 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Encodable.swift */; };
 		OBJ_38 /* IvarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* IvarObject.swift */; };
 		OBJ_39 /* IvarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* IvarArray.swift */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		OBJ_10 /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		OBJ_11 /* IvarToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarToken.swift; sourceTree = "<group>"; };
-		OBJ_12 /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
+		OBJ_12 /* ObjectEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectEncoder.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
 		OBJ_14 /* IvarObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarObject.swift; sourceTree = "<group>"; };
 		OBJ_15 /* IvarArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarArray.swift; sourceTree = "<group>"; };
@@ -50,7 +50,7 @@
 		OBJ_25 /* SwiftBinary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftBinary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_8 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		OBJ_8 /* ObjectDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +100,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -108,17 +108,16 @@
 				OBJ_20 /* Tests */,
 				OBJ_24 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* Decoder.swift */,
+				OBJ_8 /* ObjectDecoder.swift */,
 				OBJ_9 /* Decodable.swift */,
 				OBJ_10 /* DataType.swift */,
 				OBJ_11 /* IvarToken.swift */,
-				OBJ_12 /* Encoder.swift */,
+				OBJ_12 /* ObjectEncoder.swift */,
 				OBJ_13 /* Encodable.swift */,
 				OBJ_14 /* IvarObject.swift */,
 				OBJ_15 /* IvarArray.swift */,
@@ -181,7 +180,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_24 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -197,11 +196,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_32 /* Decoder.swift in Sources */,
+				OBJ_32 /* ObjectDecoder.swift in Sources */,
 				OBJ_33 /* Decodable.swift in Sources */,
 				OBJ_34 /* DataType.swift in Sources */,
 				OBJ_35 /* IvarToken.swift in Sources */,
-				OBJ_36 /* Encoder.swift in Sources */,
+				OBJ_36 /* ObjectEncoder.swift in Sources */,
 				OBJ_37 /* Encodable.swift in Sources */,
 				OBJ_38 /* IvarObject.swift in Sources */,
 				OBJ_39 /* IvarArray.swift in Sources */,

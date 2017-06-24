@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class Decoder {
+public class ObjectDecoder {
 	public init() {
 		
 	}
