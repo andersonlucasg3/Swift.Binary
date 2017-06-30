@@ -225,6 +225,7 @@ public class ObjectDecoder {
 				try self.populateFields(ofObject: instance, withObject: val as! IvarObject)
 				array.append(instance)
 			}
+            self.setIvarValue(object: object, name: values.name, value: array)
 		} else {
 			let type = try self.findArrayType(forField: values.name, ofObject: object)
 			if type == Array<Int>.self {
