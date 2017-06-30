@@ -5,7 +5,13 @@
 import Foundation
 
 public class IvarToken<T>: Token {
-	public internal(set) var value: T!
+    private var tokenValue: T!
+    
+    public internal(set) var value: T {
+        get { return self.tokenValue! }
+        
+        set { self.tokenValue = newValue }
+    }
 
 	public override init() throws {
 		try super.init()
