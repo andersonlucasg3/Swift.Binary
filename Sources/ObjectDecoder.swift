@@ -69,15 +69,15 @@ public class ObjectDecoder {
 	}
 
 	fileprivate func populateProperty(with value: Token, intoObject instance: DecodableProtocol) {
-		switch value.type.rawValue {
-		case DataType.int8.rawValue: self.setProperty(for: value as! IvarToken<Int8>, intoObject: instance); break 
-		case DataType.int16.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
-		case DataType.int32.rawValue: self.setProperty(for: value as! IvarToken<Int32>, intoObject: instance); break
-		case DataType.int64.rawValue: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
-		case DataType.float.rawValue: self.setProperty(for: value as! IvarToken<Float>, intoObject: instance); break
-		case DataType.double.rawValue: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
-		case DataType.data.rawValue: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
-		case DataType.string.rawValue: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
+		switch value.type {
+		case .int8: self.setProperty(for: value as! IvarToken<Int8>, intoObject: instance); break
+		case .int16: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case .int32: self.setProperty(for: value as! IvarToken<Int32>, intoObject: instance); break
+		case .int64: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
+		case .float: self.setProperty(for: value as! IvarToken<Float>, intoObject: instance); break
+		case .double: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
+		case .data: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
+		case .string: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
 		default:
 			self.populateArrayProperty(with: value, intoObject: instance)
 			break
@@ -85,14 +85,14 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func populateArrayProperty(with value: Token, intoObject instance: DecodableProtocol) {
-		switch value.type.rawValue {
-		case DataType.arrayInt8.rawValue: self.setProperty(for: value as! IvarArray<Int8>, intoObject: instance); break
-		case DataType.arrayInt16.rawValue: self.setProperty(for: value as! IvarArray<Int16>, intoObject: instance); break
-		case DataType.arrayInt32.rawValue: self.setProperty(for: value as! IvarArray<Int32>, intoObject: instance); break
-		case DataType.arrayInt64.rawValue: self.setProperty(for: value as! IvarArray<Int64>, intoObject: instance); break
-		case DataType.arrayFloat.rawValue: self.setProperty(for: value as! IvarArray<Float>, intoObject: instance); break
-		case DataType.arrayDouble.rawValue: self.setProperty(for: value as! IvarArray<Double>, intoObject: instance); break
-		case DataType.arrayString.rawValue: self.setProperty(for: value as! IvarArray<String>, intoObject: instance); break
+		switch value.type {
+		case .arrayInt8: self.setProperty(for: value as! IvarArray<Int8>, intoObject: instance); break
+		case .arrayInt16: self.setProperty(for: value as! IvarArray<Int16>, intoObject: instance); break
+		case .arrayInt32: self.setProperty(for: value as! IvarArray<Int32>, intoObject: instance); break
+		case .arrayInt64: self.setProperty(for: value as! IvarArray<Int64>, intoObject: instance); break
+		case .arrayFloat: self.setProperty(for: value as! IvarArray<Float>, intoObject: instance); break
+		case .arrayDouble: self.setProperty(for: value as! IvarArray<Double>, intoObject: instance); break
+		case .arrayString: self.setProperty(for: value as! IvarArray<String>, intoObject: instance); break
 		default: break
 		}
 	}
@@ -137,8 +137,8 @@ public class ObjectDecoder {
 	}
 	
 	internal func parseGenericType(_ type: String, enclosing: String) -> String {
-		let enclosingLength = enclosing.lengthOfBytes(using: .utf8) + 1
-		let typeLength = type.lengthOfBytes(using: .utf8) - enclosingLength - 1
+		let enclosingLength = enclosing.count + 1
+		let typeLength = type.count - enclosingLength - 1
 		return NSString(string: type).substring(with: NSRange(location: enclosingLength, length: typeLength))
 	}
 	
@@ -146,15 +146,15 @@ public class ObjectDecoder {
 		let children = Mirror(reflecting: object).children
 		for child in children {
 			if child.label == field {
-				guard let type = type(of: child.value) as? NSObject.Type else {
-					let typeString = String(reflecting: type(of: child.value))
+				guard let childType = type(of: child.value) as? NSObject.Type else {
+                    let typeString = String(reflecting: type(of: child.value))
 					let classType = self.parseGenericType(typeString, enclosing: "Swift.Optional")
 					guard let recovered = NSClassFromString(classType) else {
 						throw NSError(domain: "You MUST extend your class from NSObject, we couldn't avoid that yet.", code: -1)
 					}
 					return recovered as? NSObject.Type
 				}
-				return type
+				return childType
 			}
 		}
 		return nil
@@ -164,8 +164,8 @@ public class ObjectDecoder {
 		let children = Mirror(reflecting: object).children
 		for child in children {
 			if child.label == field {
-				guard let type = type(of: child.value) as? NSObject.Type else {
-					let typeString = String(reflecting: type(of: child.value))
+				guard let childType = type(of: child.value) as? NSObject.Type else {
+                    let typeString = String(reflecting: type(of: child.value))
 					let classType = self.parseGenericType(typeString, enclosing: "Swift.Array")
 					guard let recovered = NSClassFromString(classType) else {
 						switch classType
@@ -186,7 +186,7 @@ public class ObjectDecoder {
 					}
 					return recovered as? NSObject.Type
 				}
-				return type
+				return childType
 			}
 		}
 		return nil
@@ -238,27 +238,27 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func setFixedSize(value: Token, intoObject object: AnyObject) {
-		switch value.type.rawValue {
-		case DataType.int8.rawValue: self.populateIvarToken(value: value as! IvarToken<Int8>, intoObject: object); break
-		case DataType.int16.rawValue: self.populateIvarToken(value: value as! IvarToken<Int16>, intoObject: object); break
-		case DataType.int32.rawValue: self.populateIvarToken(value: value as! IvarToken<Int32>, intoObject: object); break
-		case DataType.int64.rawValue: self.populateIvarToken(value: value as! IvarToken<Int64>, intoObject: object); break
-		case DataType.float.rawValue: self.populateIvarToken(value: value as! IvarToken<Float>, intoObject: object); break
-		case DataType.double.rawValue: self.populateIvarToken(value: value as! IvarToken<Double>, intoObject: object); break
+		switch value.type {
+		case .int8: self.populateIvarToken(value: value as! IvarToken<Int8>, intoObject: object); break
+		case .int16: self.populateIvarToken(value: value as! IvarToken<Int16>, intoObject: object); break
+		case .int32: self.populateIvarToken(value: value as! IvarToken<Int32>, intoObject: object); break
+		case .int64: self.populateIvarToken(value: value as! IvarToken<Int64>, intoObject: object); break
+		case .float: self.populateIvarToken(value: value as! IvarToken<Float>, intoObject: object); break
+		case .double: self.populateIvarToken(value: value as! IvarToken<Double>, intoObject: object); break
 		default: break
 		}
 	}
 
 	fileprivate func getAnyObject(value: Token) -> AnyObject? {
-		switch value.type.rawValue {
-		case DataType.int8.rawValue: return (value as! IvarToken<Int8>).value as AnyObject
-		case DataType.int16.rawValue: return (value as! IvarToken<Int16>).value as AnyObject
-		case DataType.int32.rawValue: return (value as! IvarToken<Int32>).value as AnyObject
-		case DataType.int64.rawValue: return (value as! IvarToken<Int64>).value as AnyObject
-		case DataType.float.rawValue: return (value as! IvarToken<Float>).value as AnyObject
-		case DataType.double.rawValue: return (value as! IvarToken<Double>).value as AnyObject
-		case DataType.data.rawValue: return (value as! IvarToken<Data>).value as AnyObject
-		case DataType.string.rawValue: return (value as! IvarToken<String>).value as AnyObject
+		switch value.type {
+		case .int8: return (value as! IvarToken<Int8>).value as AnyObject
+		case .int16: return (value as! IvarToken<Int16>).value as AnyObject
+		case .int32: return (value as! IvarToken<Int32>).value as AnyObject
+		case .int64: return (value as! IvarToken<Int64>).value as AnyObject
+		case .float: return (value as! IvarToken<Float>).value as AnyObject
+		case .double: return (value as! IvarToken<Double>).value as AnyObject
+		case .data: return (value as! IvarToken<Data>).value as AnyObject
+		case .string: return (value as! IvarToken<String>).value as AnyObject
 		default: return nil
 		}
 	}
@@ -273,7 +273,7 @@ public class ObjectDecoder {
 	
 	fileprivate func getIvarReference<T : AnyObject, V>(object: T, name: String) -> UnsafeMutablePointer<V> {
 		let ivar = class_getInstanceVariable(type(of: object), name.withCString({$0}))
-		let offset = ivar_getOffset(ivar)
+		let offset = ivar_getOffset(ivar!)
 		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
 		return pointer.assumingMemoryBound(to: V.self)
 	}

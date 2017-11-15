@@ -1,6 +1,8 @@
 import XCTest
 @testable import SwiftBinary
 
+#if os(Linux)
+
 class SwiftBinaryLinuxTests: XCTestCase {
     static let allTests = [
         ("testEncoderDecoder", testEncoderDecoder)
@@ -93,3 +95,5 @@ class SomeOtherClass : SomeClass {
 		return object
     }
 }
+
+#endif

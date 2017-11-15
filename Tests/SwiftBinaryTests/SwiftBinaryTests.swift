@@ -4,24 +4,24 @@ import XCTest
 @testable import SwiftBinary
 
 class SubClass : NSObject {
-	dynamic var value: Int = 10
-	dynamic var value2: Int = 25
-	dynamic var array: [Data] = [
+    @objc dynamic var value: Int = 10
+	@objc dynamic var value2: Int = 25
+	@objc dynamic var array: [Data] = [
 		"testando".data(using: .utf8)!
 	]
 }
 
 class TestCommand: NSObject {
-	dynamic var int1: Int = 123
-	dynamic var int2: Int = 225
-	dynamic var string: String = "Testando"
-	dynamic var sub: SubClass?
-	dynamic var array: [Int] = [1, 2, 3, 4, 5]
-	dynamic var classArray: [SubClass] = [
+	@objc dynamic var int1: Int = 123
+	@objc dynamic var int2: Int = 225
+	@objc dynamic var string: String = "Testando"
+	@objc dynamic var sub: SubClass?
+	@objc dynamic var array: [Int] = [1, 2, 3, 4, 5]
+	@objc dynamic var classArray: [SubClass] = [
 		SubClass(),
 		SubClass()
 	]
-	dynamic var emptyArray: [Float] = []
+	@objc dynamic var emptyArray: [Float] = []
 }
 
 class Swift_BinaryTests: XCTestCase {

@@ -43,11 +43,11 @@ public class ObjectEncoder {
 	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
 		#if os(iOS) || os(OSX)
 		if obj is EncodableProtocol {
-			return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+            return try self.convert(object: obj as! EncodableProtocol, forKey: key.value(""))
 		}
 		return try self.encodeObjectByMirror(ofObject:obj, forKey:key)
 		#else
-		return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		return try self.convert(object: obj as! EncodableProtocol, forKey: key.value(""))
 		#endif
 	}
 
@@ -79,7 +79,7 @@ public class ObjectEncoder {
 			cls = cls?.superclassMirror
 		}
 
-		return try! IvarObject(name: key ?? "", value: tokens)
+		return try! IvarObject(name: key.value(""), value: tokens)
 	}
 	
 	#endif
@@ -150,7 +150,6 @@ public class ObjectEncoder {
 			} else if value is Double {
 				return try self.getAnyArray(ofValues: values as! [Double], forKey: key) as IvarArray<Double>
 			} else {
-				print("Se estiver quebrando aqui esta muito errado!")
 				var array = Array<IvarObject>()
 				for val in values {
 					#if os(Linux)
@@ -197,8 +196,8 @@ public class ObjectEncoder {
 	}
 
 	fileprivate func parseGenericType(_ type: String, enclosing: String) -> String {
-		let enclosingLength = enclosing.lengthOfBytes(using: .utf8) + 1
-		let typeLength = type.lengthOfBytes(using: .utf8) - enclosingLength - 1
+		let enclosingLength = enclosing.count + 1
+		let typeLength = type.count - enclosingLength - 1
 		return NSString(string: type).substring(with: NSRange(location: enclosingLength, length: typeLength))
 	}
 

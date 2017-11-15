@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71B4E9C91FBBE404001C1E6E /* IvarToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* IvarToken.swift */; };
+		71B4E9CA1FBBE40D001C1E6E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Token.swift */; };
+		71B4E9CB1FBBE417001C1E6E /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* ObjectDecoder.swift */; };
+		71B4E9CC1FBBE419001C1E6E /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
+		71B4E9CD1FBBE41C001C1E6E /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
+		71B4E9CE1FBBE421001C1E6E /* ObjectEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ObjectEncoder.swift */; };
+		71B4E9CF1FBBE423001C1E6E /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Encodable.swift */; };
+		71B4E9D01FBBE425001C1E6E /* IvarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* IvarObject.swift */; };
+		71B4E9D11FBBE428001C1E6E /* IvarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* IvarArray.swift */; };
+		71B4E9D21FBBE42B001C1E6E /* Dictionary+AnyNotNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Dictionary+AnyNotNil.swift */; };
+		71B4E9D31FBBE42D001C1E6E /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Optional+Extensions.swift */; };
+		71B4E9D41FBBE430001C1E6E /* Convertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Convertable.swift */; };
 		OBJ_32 /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* ObjectDecoder.swift */; };
 		OBJ_33 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
 		OBJ_34 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
@@ -48,7 +60,7 @@
 		OBJ_22 /* SwiftBinaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryTests.swift; sourceTree = "<group>"; };
 		OBJ_23 /* SwiftBinaryLinuxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryLinuxTests.swift; sourceTree = "<group>"; };
 		OBJ_25 /* SwiftBinary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftBinary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_8 /* ObjectDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
@@ -172,6 +184,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					OBJ_27 = {
+						LastSwiftMigration = 0910;
+					};
+					OBJ_45 = {
+						LastSwiftMigration = 0910;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftBinary" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -215,8 +235,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				71B4E9D01FBBE425001C1E6E /* IvarObject.swift in Sources */,
+				71B4E9C91FBBE404001C1E6E /* IvarToken.swift in Sources */,
+				71B4E9CF1FBBE423001C1E6E /* Encodable.swift in Sources */,
+				71B4E9D31FBBE42D001C1E6E /* Optional+Extensions.swift in Sources */,
 				OBJ_50 /* SwiftBinaryTests.swift in Sources */,
 				OBJ_51 /* SwiftBinaryLinuxTests.swift in Sources */,
+				71B4E9CC1FBBE419001C1E6E /* Decodable.swift in Sources */,
+				71B4E9CB1FBBE417001C1E6E /* ObjectDecoder.swift in Sources */,
+				71B4E9CE1FBBE421001C1E6E /* ObjectEncoder.swift in Sources */,
+				71B4E9CA1FBBE40D001C1E6E /* Token.swift in Sources */,
+				71B4E9CD1FBBE41C001C1E6E /* DataType.swift in Sources */,
+				71B4E9D41FBBE430001C1E6E /* Convertable.swift in Sources */,
+				71B4E9D21FBBE42B001C1E6E /* Dictionary+AnyNotNil.swift in Sources */,
+				71B4E9D11FBBE428001C1E6E /* IvarArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +280,7 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinary;
 			};
 			name = Debug;
@@ -292,6 +325,7 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinary;
 			};
 			name = Release;
@@ -330,6 +364,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinaryTests;
 			};
 			name = Debug;
@@ -347,6 +382,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinaryTests;
 			};
 			name = Release;
