@@ -60,9 +60,9 @@ public class IvarToken<T>: Token {
 	}
 
 	public func writeValue(into data: inout Data) throws {
-		switch self.type.rawValue {
-		case DataType.string.rawValue: self.writeString(self.value as! String, into: &data); break
-		case DataType.data.rawValue: self.writeData(self.value as! Data, into: &data); break
+		switch self.type {
+		case .string: self.writeString(self.value as! String, into: &data); break
+		case .data: self.writeData(self.value as! Data, into: &data); break
 		default: self.writeOther(self.value, info: &data); break
 		}
 	}
@@ -81,9 +81,9 @@ public class IvarToken<T>: Token {
 	}
 
 	public func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
-		switch self.type.rawValue {
-		case DataType.string.rawValue: self.value = self.readString(from: &bytes) as! T; break
-		case DataType.data.rawValue: self.value = self.readData(from: &bytes) as! T; break
+		switch self.type {
+		case .string: self.value = self.readString(from: &bytes) as! T; break
+		case .data: self.value = self.readData(from: &bytes) as! T; break
 		default: self.value = self.readOther(from: &bytes); break
 		}
 	}

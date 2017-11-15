@@ -102,15 +102,15 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 	}
 	
 	fileprivate func getTypedArray() -> [AnyObject] {
-		switch self.type.rawValue {
-		case DataType.arrayInt8.rawValue: return Array<IvarToken<Int8>>() as [AnyObject]
-		case DataType.arrayInt16.rawValue: return Array<IvarToken<Int16>>() as [AnyObject]
-		case DataType.arrayInt32.rawValue: return Array<IvarToken<Int32>>() as [AnyObject]
-		case DataType.arrayInt64.rawValue: return Array<IvarToken<Int64>>() as [AnyObject]
-		case DataType.arrayFloat.rawValue: return Array<IvarToken<Float>>() as [AnyObject]
-		case DataType.arrayDouble.rawValue: return Array<IvarToken<Double>>() as [AnyObject]
-		case DataType.arrayString.rawValue: return Array<IvarToken<String>>() as [AnyObject]
-		case DataType.arrayData.rawValue: return Array<IvarToken<Data>>() as [AnyObject]
+		switch self.type {
+		case .arrayInt8: return Array<IvarToken<Int8>>() as [AnyObject]
+		case .arrayInt16: return Array<IvarToken<Int16>>() as [AnyObject]
+		case .arrayInt32: return Array<IvarToken<Int32>>() as [AnyObject]
+		case .arrayInt64: return Array<IvarToken<Int64>>() as [AnyObject]
+		case .arrayFloat: return Array<IvarToken<Float>>() as [AnyObject]
+		case .arrayDouble: return Array<IvarToken<Double>>() as [AnyObject]
+		case .arrayString: return Array<IvarToken<String>>() as [AnyObject]
+		case .arrayData: return Array<IvarToken<Data>>() as [AnyObject]
 		default:
 			return Array<AnyObject>()
 		}
