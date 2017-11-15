@@ -137,8 +137,8 @@ public class ObjectDecoder {
 	}
 	
 	internal func parseGenericType(_ type: String, enclosing: String) -> String {
-		let enclosingLength = enclosing.lengthOfBytes(using: .utf8) + 1
-		let typeLength = type.lengthOfBytes(using: .utf8) - enclosingLength - 1
+		let enclosingLength = enclosing.count + 1
+		let typeLength = type.count - enclosingLength - 1
 		return NSString(string: type).substring(with: NSRange(location: enclosingLength, length: typeLength))
 	}
 	
@@ -146,15 +146,15 @@ public class ObjectDecoder {
 		let children = Mirror(reflecting: object).children
 		for child in children {
 			if child.label == field {
-				guard let type = type(of: child.value) as? NSObject.Type else {
-					let typeString = String(reflecting: type(of: child.value))
+				guard let childType = type(of: child.value) as? NSObject.Type else {
+                    let typeString = String(reflecting: type(of: child.value))
 					let classType = self.parseGenericType(typeString, enclosing: "Swift.Optional")
 					guard let recovered = NSClassFromString(classType) else {
 						throw NSError(domain: "You MUST extend your class from NSObject, we couldn't avoid that yet.", code: -1)
 					}
 					return recovered as? NSObject.Type
 				}
-				return type
+				return childType
 			}
 		}
 		return nil
@@ -164,8 +164,8 @@ public class ObjectDecoder {
 		let children = Mirror(reflecting: object).children
 		for child in children {
 			if child.label == field {
-				guard let type = type(of: child.value) as? NSObject.Type else {
-					let typeString = String(reflecting: type(of: child.value))
+				guard let childType = type(of: child.value) as? NSObject.Type else {
+                    let typeString = String(reflecting: type(of: child.value))
 					let classType = self.parseGenericType(typeString, enclosing: "Swift.Array")
 					guard let recovered = NSClassFromString(classType) else {
 						switch classType
@@ -186,7 +186,7 @@ public class ObjectDecoder {
 					}
 					return recovered as? NSObject.Type
 				}
-				return type
+				return childType
 			}
 		}
 		return nil
@@ -273,7 +273,7 @@ public class ObjectDecoder {
 	
 	fileprivate func getIvarReference<T : AnyObject, V>(object: T, name: String) -> UnsafeMutablePointer<V> {
 		let ivar = class_getInstanceVariable(type(of: object), name.withCString({$0}))
-		let offset = ivar_getOffset(ivar)
+		let offset = ivar_getOffset(ivar!)
 		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
 		return pointer.assumingMemoryBound(to: V.self)
 	}

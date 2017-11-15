@@ -150,7 +150,6 @@ public class ObjectEncoder {
 			} else if value is Double {
 				return try self.getAnyArray(ofValues: values as! [Double], forKey: key) as IvarArray<Double>
 			} else {
-				print("Se estiver quebrando aqui esta muito errado!")
 				var array = Array<IvarObject>()
 				for val in values {
 					#if os(Linux)
@@ -197,8 +196,8 @@ public class ObjectEncoder {
 	}
 
 	fileprivate func parseGenericType(_ type: String, enclosing: String) -> String {
-		let enclosingLength = enclosing.lengthOfBytes(using: .utf8) + 1
-		let typeLength = type.lengthOfBytes(using: .utf8) - enclosingLength - 1
+		let enclosingLength = enclosing.count + 1
+		let typeLength = type.count - enclosingLength - 1
 		return NSString(string: type).substring(with: NSRange(location: enclosingLength, length: typeLength))
 	}
 
