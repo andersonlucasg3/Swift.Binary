@@ -1,5 +1,8 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9.1
 
 script:
-- xcodebuild clean build test -project "Swift.Binary.xcodeproj" -scheme SwiftBinary -sdk iphonesimulator10.3 -destination "OS=10.3,name=iPhone SE" ONLY_ACTIVE_ARCH=NO
+- xcodebuild clean build test -project "Swift.Binary.xcodeproj" -scheme SwiftBinary -sdk iphonesimulator8.4 -destination "OS=8.4,name=iPhone 4s" ONLY_ACTIVE_ARCH=YES
+- xcodebuild clean build test -project "Swift.Binary.xcodeproj" -scheme SwiftBinary -sdk iphonesimulator9.3 -destination "OS=9.3,name=iPhone 5s" ONLY_ACTIVE_ARCH=YES
+- xcodebuild clean build test -project "Swift.Binary.xcodeproj" -scheme SwiftBinary -sdk iphonesimulator10.3.1 -destination "OS=10.3.1,name=iPhone SE" ONLY_ACTIVE_ARCH=YES
+- xcodebuild clean build test -project "Swift.Binary.xcodeproj" -scheme SwiftBinary -sdk iphonesimulator11.1 -destination "OS=11.1,name=iPhone SE" ONLY_ACTIVE_ARCH=YES
