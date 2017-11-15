@@ -30,7 +30,7 @@ public extension Decodable {
 
 	public func readOther<T>(from bytes: inout UnsafePointer<UInt8>, advance: Bool? = nil) -> T {
 		let value = bytes.withMemoryRebound(to: T.self, capacity: 1, { $0.pointee })
-		if advance ?? true {
+		if advance.value(true) {
 			bytes = bytes.advanced(by: MemoryLayout<T>.size)
 		}
 		return value

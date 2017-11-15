@@ -10,10 +10,10 @@ public protocol Encodable : class {
 
 public extension Encodable {
 	public func writeString(_ string: String, into data: inout Data) {
-		var length = Int32(string.lengthOfBytes(using: .utf8))
+        var length = Int32(string.lengthOfBytes(using: .utf8))
 		data.append(self.unsafeBytes(of: &length))
 
-		data.append(string.withCString({ $0.withMemoryRebound(to: UInt8.self, capacity: Int(length), { $0 }) }), count: Int(length))
+        data.append(string.data(using: .utf8)!)
 	}
 
 	public func writeData(_ dt: Data, into data: inout Data) {

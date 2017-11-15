@@ -44,3 +44,9 @@ extension Optional : OptionalProtocol {
 		return Wrapped.self is EncodableProtocol.Type
 	}
 }
+
+extension Optional {
+    public func value(_ `default`: Wrapped) -> Wrapped {
+        return self ?? `default`
+    }
+}
