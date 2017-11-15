@@ -43,11 +43,11 @@ public class ObjectEncoder {
 	fileprivate func encodeObject(ofObject obj: AnyObject, forKey key: String? = nil) throws -> IvarObject {
 		#if os(iOS) || os(OSX)
 		if obj is EncodableProtocol {
-			return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+            return try self.convert(object: obj as! EncodableProtocol, forKey: key.value(""))
 		}
 		return try self.encodeObjectByMirror(ofObject:obj, forKey:key)
 		#else
-		return try self.convert(object: obj as! EncodableProtocol, forKey: key ?? "")
+		return try self.convert(object: obj as! EncodableProtocol, forKey: key.value(""))
 		#endif
 	}
 
@@ -79,7 +79,7 @@ public class ObjectEncoder {
 			cls = cls?.superclassMirror
 		}
 
-		return try! IvarObject(name: key ?? "", value: tokens)
+		return try! IvarObject(name: key.value(""), value: tokens)
 	}
 	
 	#endif
