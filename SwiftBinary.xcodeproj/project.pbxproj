@@ -48,7 +48,7 @@
 		OBJ_22 /* SwiftBinaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryTests.swift; sourceTree = "<group>"; };
 		OBJ_23 /* SwiftBinaryLinuxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryLinuxTests.swift; sourceTree = "<group>"; };
 		OBJ_25 /* SwiftBinary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftBinary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_8 /* ObjectDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
@@ -172,6 +172,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					OBJ_27 = {
+						LastSwiftMigration = 0910;
+					};
+					OBJ_45 = {
+						LastSwiftMigration = 0910;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftBinary" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -248,6 +256,7 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinary;
 			};
 			name = Debug;
@@ -292,6 +301,7 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinary;
 			};
 			name = Release;
@@ -330,6 +340,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinaryTests;
 			};
 			name = Debug;
@@ -347,6 +358,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = SwiftBinaryTests;
 			};
 			name = Release;
