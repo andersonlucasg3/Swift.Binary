@@ -44,6 +44,8 @@ public class IvarToken<T>: Token {
 			self.type = .string
 		} else if type is Data.Type {
 			self.type = .data
+        } else if type is Bool.Type {
+            self.type = .bool
 		} else {
 			throw NSError(domain: "Type [[[\(T.self)]]] not supported yet.", code: -1)
 		}

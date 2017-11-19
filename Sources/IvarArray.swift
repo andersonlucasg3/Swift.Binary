@@ -23,6 +23,8 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 			self.type = .arrayString
 		} else if type is Data.Type {
 			self.type = .arrayData
+        } else if type is Bool.Type {
+            self.type = .arrayBool
 		} else if type is IvarObject.Type {
 			self.type = .arrayObject
 		} else {
@@ -111,6 +113,7 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 		case .arrayDouble: return Array<IvarToken<Double>>() as [AnyObject]
 		case .arrayString: return Array<IvarToken<String>>() as [AnyObject]
 		case .arrayData: return Array<IvarToken<Data>>() as [AnyObject]
+        case .arrayBool: return Array<IvarToken<Bool>>() as [AnyObject]
 		default:
 			return Array<AnyObject>()
 		}
