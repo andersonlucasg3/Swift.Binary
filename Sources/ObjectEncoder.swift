@@ -103,6 +103,8 @@ public class ObjectEncoder {
 			return try self.getAnyType(forValue: value as! Float, andKey: key)
 		} else if value is Double {
 			return try self.getAnyType(forValue: value as! Double, andKey: key)
+        } else if value is Bool {
+            return try self.getAnyType(forValue: value as! Bool, andKey: key)
 		} else {
 			return try self.getAnyType(forValue: value, andKey: key)
 		}
@@ -149,6 +151,8 @@ public class ObjectEncoder {
 				return try self.getAnyArray(ofValues: values as! [Float], forKey: key) as IvarArray<Float>
 			} else if value is Double {
 				return try self.getAnyArray(ofValues: values as! [Double], forKey: key) as IvarArray<Double>
+            } else if value is Bool {
+                return try self.getAnyArray(ofValues: values as! [Bool], forKey: key) as IvarArray<Bool>
 			} else {
 				var array = Array<IvarObject>()
 				for val in values {
@@ -191,7 +195,9 @@ public class ObjectEncoder {
 			return try IvarToken(name: key, value: value as! Float)
 		} else if value is Double {
 			return try IvarToken(name: key, value: value as! Double)
-		}
+        } else if value is Bool {
+            return try IvarToken(name: key, value: value as! Bool)
+        }
 		return nil
 	}
 
