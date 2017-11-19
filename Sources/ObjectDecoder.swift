@@ -78,6 +78,7 @@ public class ObjectDecoder {
 		case .double: self.setProperty(for: value as! IvarToken<Double>, intoObject: instance); break
 		case .data: self.setProperty(for: value as! IvarToken<Data>, intoObject: instance); break
 		case .string: self.setProperty(for: value as! IvarToken<String>, intoObject: instance); break
+        case .bool: self.setProperty(for: value as! IvarToken<Bool>, intoObject: instance); break
 		default:
 			self.populateArrayProperty(with: value, intoObject: instance)
 			break
@@ -93,6 +94,7 @@ public class ObjectDecoder {
 		case .arrayFloat: self.setProperty(for: value as! IvarArray<Float>, intoObject: instance); break
 		case .arrayDouble: self.setProperty(for: value as! IvarArray<Double>, intoObject: instance); break
 		case .arrayString: self.setProperty(for: value as! IvarArray<String>, intoObject: instance); break
+        case .arrayBool: self.setProperty(for: value as! IvarArray<Bool>, intoObject: instance); break
 		default: break
 		}
 	}
@@ -159,6 +161,11 @@ public class ObjectDecoder {
 		}
 		return nil
 	}
+    
+    fileprivate func cleanClassType(_ classType: String) -> String {
+        return classType.replacingOccurrences(of: "Swift.", with: "")
+                        .replacingOccurrences(of: "Foundation.", with: "")
+    }
 	
 	fileprivate func findArrayType(forField field: String, ofObject object: AnyObject) throws -> Any.Type? {
 		let children = Mirror(reflecting: object).children
@@ -168,9 +175,7 @@ public class ObjectDecoder {
                     let typeString = String(reflecting: type(of: child.value))
 					let classType = self.parseGenericType(typeString, enclosing: "Swift.Array")
 					guard let recovered = NSClassFromString(classType) else {
-						switch classType
-							.replacingOccurrences(of: "Swift.", with: "")
-							.replacingOccurrences(of: "Foundation.", with: "") {
+						switch self.cleanClassType(classType) {
 						case "Int": return Array<Int>.self
 						case "Int8": return Array<Int8>.self
 						case "Int16": return Array<Int16>.self
@@ -180,6 +185,7 @@ public class ObjectDecoder {
 						case "Double": return Array<Double>.self
 						case "String": return Array<String>.self
 						case "Data": return Array<Data>.self
+                        case "Bool": return Array<Bool>.self
 						default:
 							throw NSError(domain: "Unsupported array type \(classType). Unkown reason yet.", code: -1)
 						}
@@ -209,6 +215,8 @@ public class ObjectDecoder {
 			try self.populateArray(values: token as! IvarArray<String>, intoObject: object)
 		} else if token.type == .arrayData {
 			try self.populateArray(values: token as! IvarArray<Data>, intoObject: object)
+        } else if token.type == .arrayBool {
+            try self.populateArray(values: token as! IvarArray<Bool>, intoObject: object)
 		} else if token.type == .arrayObject {
 			try self.populateArray(values: token as! IvarArray<IvarObject>, intoObject: object)
 		} else {
@@ -245,6 +253,7 @@ public class ObjectDecoder {
 		case .int64: self.populateIvarToken(value: value as! IvarToken<Int64>, intoObject: object); break
 		case .float: self.populateIvarToken(value: value as! IvarToken<Float>, intoObject: object); break
 		case .double: self.populateIvarToken(value: value as! IvarToken<Double>, intoObject: object); break
+        case .bool: self.populateIvarToken(value: value as! IvarToken<Bool>, intoObject: object); break
 		default: break
 		}
 	}
@@ -259,6 +268,7 @@ public class ObjectDecoder {
 		case .double: return (value as! IvarToken<Double>).value as AnyObject
 		case .data: return (value as! IvarToken<Data>).value as AnyObject
 		case .string: return (value as! IvarToken<String>).value as AnyObject
+        case .bool: return (value as! IvarToken<Bool>).value as AnyObject
 		default: return nil
 		}
 	}

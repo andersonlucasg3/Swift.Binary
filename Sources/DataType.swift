@@ -25,33 +25,40 @@ public enum DataType: UInt8 {
 		arrayDouble = 15,
 		arrayString = 16,
 		arrayData = 17
+    
+    // adding support to bool
+    case bool = 18,
+         arrayBool = 19
+    
 
 	public static func isFixedSize<T>(type: T.Type) -> Bool {
-		return type == DataType.int8 ||
-			type == DataType.int16 ||
-			type == DataType.int32 ||
-			type == DataType.int64 ||
-			type == DataType.float ||
-			type == DataType.double
+		return type == .int8 ||
+			type == .int16 ||
+			type == .int32 ||
+			type == .int64 ||
+			type == .float ||
+			type == .double ||
+            type == .bool
 	}
 	
 	public static func isFixedSize(type: DataType) -> Bool {
-		return type == DataType.int8 ||
-			type == DataType.int16 ||
-			type == DataType.int32 ||
-			type == DataType.int64 ||
-			type == DataType.float ||
-			type == DataType.double
+		return type == .int8 ||
+			type == .int16 ||
+			type == .int32 ||
+			type == .int64 ||
+			type == .float ||
+			type == .double ||
+            type == .bool
 	}
 
 	public static func isSizeable<T>(type: T.Type) -> Bool {
-		return type == DataType.string ||
-			type == DataType.data
+		return type == .string ||
+			type == .data
 	}
 	
 	public static func isSizeable(type: DataType) -> Bool {
-		return type == DataType.string ||
-			type == DataType.data
+		return type == .string ||
+			type == .data
 	}
 
 	public static func isArray(type: DataType) -> Bool {
@@ -60,7 +67,7 @@ public enum DataType: UInt8 {
 		     .arrayInt16, .arrayInt32,
 		     .arrayInt64, .arrayFloat,
 		     .arrayDouble, .arrayString,
-		     .arrayData:
+		     .arrayData, .arrayBool:
 			return true
 		default:
 			return false
@@ -88,6 +95,9 @@ public enum DataType: UInt8 {
 		case .arrayDouble: return try IvarArray<Double>()
 		case .arrayString: return try IvarArray<String>()
 		case .arrayData: return try IvarArray<Data>()
+            // bool support
+        case .bool: return try IvarToken<Bool>()
+        case .arrayBool: return try IvarArray<Bool>()
 		}
 	}
 }
@@ -99,6 +109,7 @@ public func ==<T>(type: T.Type, dataType: DataType) -> Bool {
 		(type == Int32.self && dataType == .int32) ||
 		(type == Float.self && dataType == .float) ||
 		(type == Double.self && dataType == .double) ||
+        (type == Bool.self && dataType == .bool) ||
 		((type == String.self || type == NSString.self) && dataType == .string) ||
 		((type == Data.self || type == NSData.self) && dataType == .data)
 }

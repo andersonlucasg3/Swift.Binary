@@ -9,9 +9,14 @@ class SubClass : NSObject {
 	@objc dynamic var array: [Data] = [
 		"testando".data(using: .utf8)!
 	]
+    @objc dynamic var bool1: Bool = false
 }
 
 class TestCommand: NSObject {
+    @objc dynamic var aBool1: Bool = false
+    @objc dynamic var boolArray = [
+        true, false, false, true, true, false
+    ]
 	@objc dynamic var int1: Int = 123
 	@objc dynamic var int2: Int = 225
 	@objc dynamic var string: String = "Testando"
@@ -84,6 +89,7 @@ class Swift_BinaryTests: XCTestCase {
 		assert(DataType.string == NSString.self)
 		assert(DataType.float == Float.self)
 		assert(DataType.double == Double.self)
+        assert(DataType.bool == Bool.self)
 		assert(Int.self == DataType.int64) // testing inverse operator
 	}
 	
@@ -161,11 +167,15 @@ class Swift_BinaryTests: XCTestCase {
 		let decoder = ObjectDecoder()
 		
 		let first = TestCommand()
+        first.aBool1 = true
 		first.sub = SubClass()
+        first.sub?.bool1 = true
 		let data = try! encoder.encodeAny(object: first)
 		
 		let command = TestCommand()
 		try! decoder.decodeAny(fromData: data, intoObject: command)
+        assert(command.boolArray[0] && !command.boolArray[1] && !command.boolArray[2] && command.boolArray[3])
+        assert(command.aBool1 == true)
 		assert(command.int1 == 123)
 		assert(command.int2 == 225)
 		assert(command.string == "Testando")
@@ -177,6 +187,7 @@ class Swift_BinaryTests: XCTestCase {
 		assert(command.classArray[0].value == 10)
 		assert(command.classArray[1].value2 == 25)
 		assert(command.emptyArray.count == 0)
+        assert(command.sub?.bool1 == true)
 	}
 }
 
