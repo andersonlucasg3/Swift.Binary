@@ -85,6 +85,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		719F41E21FD791E700C953F0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_7 /* SwiftBinary */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 		OBJ_20 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,13 +124,13 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
+				719F41E21FD791E700C953F0 /* Sources */,
 				OBJ_20 /* Tests */,
 				OBJ_24 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		OBJ_7 /* Sources */ = {
+		OBJ_7 /* SwiftBinary */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_8 /* ObjectDecoder.swift */,
@@ -138,7 +146,8 @@
 				OBJ_18 /* Convertable.swift */,
 				OBJ_19 /* Token.swift */,
 			);
-			path = Sources;
+			name = SwiftBinary;
+			path = Sources/SwiftBinary;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
@@ -303,7 +312,7 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -346,7 +355,7 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
