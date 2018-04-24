@@ -9,8 +9,8 @@ Pod::Spec.new do |spec|
     spec.authors                = { 'Anderson Lucas C. Ramos' => 'andersonlucas3d@gmail.com' }
     spec.source                 = { :git => 'https://github.com/andersonlucasg3/Swift.Binary.git', :tag => spec.version.to_s }
 
-    spec.platform               = 'ios'
     spec.ios.deployment_target  = '8.0'
+    spec.osx.deployment_target  = '10.10'
 
     spec.source_files           = 'Sources/*.swift'
 
