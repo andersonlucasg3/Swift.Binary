@@ -13,6 +13,6 @@ Pod::Spec.new do |spec|
     spec.osx.deployment_target  = '10.10'
     spec.tvos.deployment_target = '9.0'
 
-    spec.source_files           = 'Sources/*.swift'
+    spec.source_files           = 'Sources/**/*.swift'
 
 end
