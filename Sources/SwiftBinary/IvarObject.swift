@@ -29,11 +29,11 @@ public class IvarObject: IvarToken<Array<Token>> {
 	// MARK: decoding implementations
 
 	public override func decode(data: Data) throws {
-		var bytes = data.withUnsafeBytes({ $0 as UnsafePointer<UInt8> })
+		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) }).baseAddress!
 		try self.decode(bytes: &bytes)
 	}
 
-	public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
+    public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
 		self.type = DataType(rawValue: self.readOther(from: &bytes))
 		self.name = self.readString(from: &bytes)
 		try self.readValue(from: &bytes)

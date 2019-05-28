@@ -9,30 +9,26 @@ public protocol Encodable : class {
 }
 
 public extension Encodable {
-	public func writeString(_ string: String, into data: inout Data) {
+	func writeString(_ string: String, into data: inout Data) {
         var length = Int32(string.lengthOfBytes(using: .utf8))
-		data.append(self.unsafeBytes(of: &length))
+		data.append(self.unsafeBytes(of: &length), count: MemoryLayout<Int32>.size)
 
         data.append(string.data(using: .utf8)!)
 	}
 
-	public func writeData(_ dt: Data, into data: inout Data) {
+	func writeData(_ dt: Data, into data: inout Data) {
 		var length = Int32(dt.count)
-		data.append(self.unsafeBytes(of: &length))
+		data.append(self.unsafeBytes(of: &length), count: MemoryLayout<Int32>.size)
 		data.append(dt)
 	}
 
-	public func writeOther<T>(_ other: T, info data: inout Data) {
+	func writeOther<T>(_ other: T, info data: inout Data) {
 		var value = other
-		data.append(self.unsafeBytes(of: &value))
+		data.append(self.unsafeBytes(of: &value), count: MemoryLayout<T>.size)
 	}
 
-	public func unsafeBytes<T>(of value: inout T) -> UnsafeBufferPointer<UInt8> {
-		let size = MemoryLayout.size(ofValue: value)
-		return withUnsafePointer(to: &value, {
-			$0.withMemoryRebound(to: UInt8.self, capacity: size, {
-				UnsafeBufferPointer(start: $0, count: size)
-			})
-		})
+	func unsafeBytes<T>(of value: inout T) -> UnsafePointer<UInt8> {
+        let size = MemoryLayout<T>.size
+        return withUnsafePointer(to: &value, { $0.withMemoryRebound(to: UInt8.self, capacity: size, { $0 }) })
 	}
 }

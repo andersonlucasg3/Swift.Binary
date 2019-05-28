@@ -1,432 +1,696 @@
 // !$*UTF8*$!
 {
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		71B4E9C91FBBE404001C1E6E /* IvarToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* IvarToken.swift */; };
-		71B4E9CA1FBBE40D001C1E6E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Token.swift */; };
-		71B4E9CB1FBBE417001C1E6E /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* ObjectDecoder.swift */; };
-		71B4E9CC1FBBE419001C1E6E /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
-		71B4E9CD1FBBE41C001C1E6E /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
-		71B4E9CE1FBBE421001C1E6E /* ObjectEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ObjectEncoder.swift */; };
-		71B4E9CF1FBBE423001C1E6E /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Encodable.swift */; };
-		71B4E9D01FBBE425001C1E6E /* IvarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* IvarObject.swift */; };
-		71B4E9D11FBBE428001C1E6E /* IvarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* IvarArray.swift */; };
-		71B4E9D21FBBE42B001C1E6E /* Dictionary+AnyNotNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Dictionary+AnyNotNil.swift */; };
-		71B4E9D31FBBE42D001C1E6E /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Optional+Extensions.swift */; };
-		71B4E9D41FBBE430001C1E6E /* Convertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Convertable.swift */; };
-		OBJ_32 /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* ObjectDecoder.swift */; };
-		OBJ_33 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Decodable.swift */; };
-		OBJ_34 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataType.swift */; };
-		OBJ_35 /* IvarToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* IvarToken.swift */; };
-		OBJ_36 /* ObjectEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ObjectEncoder.swift */; };
-		OBJ_37 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Encodable.swift */; };
-		OBJ_38 /* IvarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* IvarObject.swift */; };
-		OBJ_39 /* IvarArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* IvarArray.swift */; };
-		OBJ_40 /* Dictionary+AnyNotNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Dictionary+AnyNotNil.swift */; };
-		OBJ_41 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Optional+Extensions.swift */; };
-		OBJ_42 /* Convertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Convertable.swift */; };
-		OBJ_43 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Token.swift */; };
-		OBJ_50 /* SwiftBinaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* SwiftBinaryTests.swift */; };
-		OBJ_51 /* SwiftBinaryLinuxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* SwiftBinaryLinuxTests.swift */; };
-		OBJ_53 /* SwiftBinary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* SwiftBinary.framework */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		71F469661EF8C5580014F688 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = OBJ_27;
-			remoteInfo = SwiftBinary;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXFileReference section */
-		OBJ_10 /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
-		OBJ_11 /* IvarToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarToken.swift; sourceTree = "<group>"; };
-		OBJ_12 /* ObjectEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectEncoder.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
-		OBJ_14 /* IvarObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarObject.swift; sourceTree = "<group>"; };
-		OBJ_15 /* IvarArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IvarArray.swift; sourceTree = "<group>"; };
-		OBJ_16 /* Dictionary+AnyNotNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+AnyNotNil.swift"; sourceTree = "<group>"; };
-		OBJ_17 /* Optional+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
-		OBJ_18 /* Convertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertable.swift; sourceTree = "<group>"; };
-		OBJ_19 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		OBJ_22 /* SwiftBinaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryTests.swift; sourceTree = "<group>"; };
-		OBJ_23 /* SwiftBinaryLinuxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBinaryLinuxTests.swift; sourceTree = "<group>"; };
-		OBJ_25 /* SwiftBinary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftBinary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_26 /* SwiftBinaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SwiftBinaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_8 /* ObjectDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
-		OBJ_9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		OBJ_44 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_52 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_53 /* SwiftBinary.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		719F41E21FD791E700C953F0 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_7 /* SwiftBinary */,
-			);
-			name = Sources;
-			sourceTree = "<group>";
-		};
-		OBJ_20 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_21 /* SwiftBinaryTests */,
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_21 /* SwiftBinaryTests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_22 /* SwiftBinaryTests.swift */,
-				OBJ_23 /* SwiftBinaryLinuxTests.swift */,
-			);
-			name = SwiftBinaryTests;
-			path = Tests/SwiftBinaryTests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_24 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_25 /* SwiftBinary.framework */,
-				OBJ_26 /* SwiftBinaryTests.xctest */,
-			);
-			name = Products;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		OBJ_5 = {
-			isa = PBXGroup;
-			children = (
-				OBJ_6 /* Package.swift */,
-				719F41E21FD791E700C953F0 /* Sources */,
-				OBJ_20 /* Tests */,
-				OBJ_24 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* SwiftBinary */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* ObjectDecoder.swift */,
-				OBJ_9 /* Decodable.swift */,
-				OBJ_10 /* DataType.swift */,
-				OBJ_11 /* IvarToken.swift */,
-				OBJ_12 /* ObjectEncoder.swift */,
-				OBJ_13 /* Encodable.swift */,
-				OBJ_14 /* IvarObject.swift */,
-				OBJ_15 /* IvarArray.swift */,
-				OBJ_16 /* Dictionary+AnyNotNil.swift */,
-				OBJ_17 /* Optional+Extensions.swift */,
-				OBJ_18 /* Convertable.swift */,
-				OBJ_19 /* Token.swift */,
-			);
-			name = SwiftBinary;
-			path = Sources/SwiftBinary;
-			sourceTree = SOURCE_ROOT;
-		};
-/* End PBXGroup section */
-
-/* Begin PBXNativeTarget section */
-		OBJ_27 /* SwiftBinary */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_28 /* Build configuration list for PBXNativeTarget "SwiftBinary" */;
-			buildPhases = (
-				OBJ_31 /* Sources */,
-				OBJ_44 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftBinary;
-			productName = SwiftBinary;
-			productReference = OBJ_25 /* SwiftBinary.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		OBJ_45 /* SwiftBinaryTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "SwiftBinaryTests" */;
-			buildPhases = (
-				OBJ_49 /* Sources */,
-				OBJ_52 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				OBJ_54 /* PBXTargetDependency */,
-			);
-			name = SwiftBinaryTests;
-			productName = SwiftBinaryTests;
-			productReference = OBJ_26 /* SwiftBinaryTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		OBJ_1 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 9999;
-				TargetAttributes = {
-					OBJ_27 = {
-						LastSwiftMigration = 0910;
-					};
-					OBJ_45 = {
-						LastSwiftMigration = 0910;
-					};
-				};
-			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftBinary" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = OBJ_5;
-			productRefGroup = OBJ_24 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				OBJ_27 /* SwiftBinary */,
-				OBJ_45 /* SwiftBinaryTests */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXSourcesBuildPhase section */
-		OBJ_31 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_32 /* ObjectDecoder.swift in Sources */,
-				OBJ_33 /* Decodable.swift in Sources */,
-				OBJ_34 /* DataType.swift in Sources */,
-				OBJ_35 /* IvarToken.swift in Sources */,
-				OBJ_36 /* ObjectEncoder.swift in Sources */,
-				OBJ_37 /* Encodable.swift in Sources */,
-				OBJ_38 /* IvarObject.swift in Sources */,
-				OBJ_39 /* IvarArray.swift in Sources */,
-				OBJ_40 /* Dictionary+AnyNotNil.swift in Sources */,
-				OBJ_41 /* Optional+Extensions.swift in Sources */,
-				OBJ_42 /* Convertable.swift in Sources */,
-				OBJ_43 /* Token.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				71B4E9D01FBBE425001C1E6E /* IvarObject.swift in Sources */,
-				71B4E9C91FBBE404001C1E6E /* IvarToken.swift in Sources */,
-				71B4E9CF1FBBE423001C1E6E /* Encodable.swift in Sources */,
-				71B4E9D31FBBE42D001C1E6E /* Optional+Extensions.swift in Sources */,
-				OBJ_50 /* SwiftBinaryTests.swift in Sources */,
-				OBJ_51 /* SwiftBinaryLinuxTests.swift in Sources */,
-				71B4E9CC1FBBE419001C1E6E /* Decodable.swift in Sources */,
-				71B4E9CB1FBBE417001C1E6E /* ObjectDecoder.swift in Sources */,
-				71B4E9CE1FBBE421001C1E6E /* ObjectEncoder.swift in Sources */,
-				71B4E9CA1FBBE40D001C1E6E /* Token.swift in Sources */,
-				71B4E9CD1FBBE41C001C1E6E /* DataType.swift in Sources */,
-				71B4E9D41FBBE430001C1E6E /* Convertable.swift in Sources */,
-				71B4E9D21FBBE42B001C1E6E /* Dictionary+AnyNotNil.swift in Sources */,
-				71B4E9D11FBBE428001C1E6E /* IvarArray.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		OBJ_54 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = OBJ_27 /* SwiftBinary */;
-			targetProxy = 71F469661EF8C5580014F688 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin XCBuildConfiguration section */
-		OBJ_29 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = SwiftBinary.xcodeproj/SwiftBinary_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftBinary;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftBinary;
-			};
-			name = Debug;
-		};
-		OBJ_3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				USE_HEADERMAP = NO;
-			};
-			name = Debug;
-		};
-		OBJ_30 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = SwiftBinary.xcodeproj/SwiftBinary_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = SwiftBinary;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftBinary;
-			};
-			name = Release;
-		};
-		OBJ_4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_OPTIMIZATION_LEVEL = s;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
-				USE_HEADERMAP = NO;
-			};
-			name = Release;
-		};
-		OBJ_47 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = SwiftBinary.xcodeproj/SwiftBinaryTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftBinaryTests;
-			};
-			name = Debug;
-		};
-		OBJ_48 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = SwiftBinary.xcodeproj/SwiftBinaryTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = SwiftBinaryTests;
-			};
-			name = Release;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		OBJ_2 /* Build configuration list for PBXProject "SwiftBinary" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_3 /* Debug */,
-				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_28 /* Build configuration list for PBXNativeTarget "SwiftBinary" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_29 /* Debug */,
-				OBJ_30 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_46 /* Build configuration list for PBXNativeTarget "SwiftBinaryTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_47 /* Debug */,
-				OBJ_48 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = OBJ_1 /* Project object */;
+   archiveVersion = "1";
+   objectVersion = "46";
+   objects = {
+      "OBJ_1" = {
+         isa = "PBXProject";
+         attributes = {
+            LastSwiftMigration = "9999";
+            LastUpgradeCheck = "9999";
+         };
+         buildConfigurationList = "OBJ_2";
+         compatibilityVersion = "Xcode 3.2";
+         developmentRegion = "English";
+         hasScannedForEncodings = "0";
+         knownRegions = (
+            "en"
+         );
+         mainGroup = "OBJ_5";
+         productRefGroup = "OBJ_26";
+         projectDirPath = ".";
+         targets = (
+            "SwiftBinary::SwiftBinary",
+            "SwiftBinary::SwiftPMPackageDescription",
+            "SwiftBinary::SwiftBinaryPackageTests::ProductTarget",
+            "SwiftBinary::SwiftBinaryTests"
+         );
+      };
+      "OBJ_10" = {
+         isa = "PBXFileReference";
+         path = "Convertable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_11" = {
+         isa = "PBXFileReference";
+         path = "DataType.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_12" = {
+         isa = "PBXFileReference";
+         path = "Decodable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_13" = {
+         isa = "PBXFileReference";
+         path = "Dictionary+AnyNotNil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_14" = {
+         isa = "PBXFileReference";
+         path = "Encodable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_15" = {
+         isa = "PBXFileReference";
+         path = "IvarArray.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_16" = {
+         isa = "PBXFileReference";
+         path = "IvarObject.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_17" = {
+         isa = "PBXFileReference";
+         path = "IvarToken.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_18" = {
+         isa = "PBXFileReference";
+         path = "ObjectDecoder.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_19" = {
+         isa = "PBXFileReference";
+         path = "ObjectEncoder.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_2" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_3",
+            "OBJ_4"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_20" = {
+         isa = "PBXFileReference";
+         path = "Optional+Extensions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_21" = {
+         isa = "PBXFileReference";
+         path = "Token.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_22" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_23"
+         );
+         name = "Tests";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_23" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_24",
+            "OBJ_25"
+         );
+         name = "SwiftBinaryTests";
+         path = "Tests/SwiftBinaryTests";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_24" = {
+         isa = "PBXFileReference";
+         path = "SwiftBinaryLinuxTests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_25" = {
+         isa = "PBXFileReference";
+         path = "SwiftBinaryTests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_26" = {
+         isa = "PBXGroup";
+         children = (
+            "SwiftBinary::SwiftBinary::Product",
+            "SwiftBinary::SwiftBinaryTests::Product"
+         );
+         name = "Products";
+         path = "";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "OBJ_29" = {
+         isa = "PBXFileReference";
+         path = "Swift.Binary.podspec";
+         sourceTree = "<group>";
+      };
+      "OBJ_3" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "NO";
+            DEBUG_INFORMATION_FORMAT = "dwarf";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            ENABLE_NS_ASSERTIONS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "0";
+            GCC_PREPROCESSOR_DEFINITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE=1",
+               "DEBUG=1"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            ONLY_ACTIVE_ARCH = "YES";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode"
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE",
+               "DEBUG"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Debug";
+      };
+      "OBJ_30" = {
+         isa = "PBXFileReference";
+         path = "Package.pins";
+         sourceTree = "<group>";
+      };
+      "OBJ_31" = {
+         isa = "PBXFileReference";
+         path = "LICENSE";
+         sourceTree = "<group>";
+      };
+      "OBJ_32" = {
+         isa = "PBXFileReference";
+         path = "README.md";
+         sourceTree = "<group>";
+      };
+      "OBJ_34" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_35",
+            "OBJ_36"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_35" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "SwiftBinary.xcodeproj/SwiftBinary_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "SwiftBinary";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "4.2";
+            TARGET_NAME = "SwiftBinary";
+         };
+         name = "Debug";
+      };
+      "OBJ_36" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "SwiftBinary.xcodeproj/SwiftBinary_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "SwiftBinary";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "4.2";
+            TARGET_NAME = "SwiftBinary";
+         };
+         name = "Release";
+      };
+      "OBJ_37" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_38",
+            "OBJ_39",
+            "OBJ_40",
+            "OBJ_41",
+            "OBJ_42",
+            "OBJ_43",
+            "OBJ_44",
+            "OBJ_45",
+            "OBJ_46",
+            "OBJ_47",
+            "OBJ_48",
+            "OBJ_49"
+         );
+      };
+      "OBJ_38" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_10";
+      };
+      "OBJ_39" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_11";
+      };
+      "OBJ_4" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "YES";
+            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            GCC_OPTIMIZATION_LEVEL = "s";
+            GCC_PREPROCESSOR_DEFINITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE=1"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode"
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Release";
+      };
+      "OBJ_40" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_12";
+      };
+      "OBJ_41" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_13";
+      };
+      "OBJ_42" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_14";
+      };
+      "OBJ_43" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_15";
+      };
+      "OBJ_44" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_16";
+      };
+      "OBJ_45" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_17";
+      };
+      "OBJ_46" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_18";
+      };
+      "OBJ_47" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_19";
+      };
+      "OBJ_48" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_20";
+      };
+      "OBJ_49" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_21";
+      };
+      "OBJ_5" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_6",
+            "OBJ_7",
+            "OBJ_22",
+            "OBJ_26",
+            "OBJ_29",
+            "OBJ_30",
+            "OBJ_31",
+            "OBJ_32"
+         );
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_50" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_52" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_53",
+            "OBJ_54"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_53" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4.2",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_54" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4.2",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_55" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_56"
+         );
+      };
+      "OBJ_56" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
+      };
+      "OBJ_58" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_59",
+            "OBJ_60"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_59" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Debug";
+      };
+      "OBJ_6" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         path = "Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_60" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Release";
+      };
+      "OBJ_61" = {
+         isa = "PBXTargetDependency";
+         target = "SwiftBinary::SwiftBinaryTests";
+      };
+      "OBJ_63" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_64",
+            "OBJ_65"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_64" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_MODULES = "YES";
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "SwiftBinary.xcodeproj/SwiftBinaryTests_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks"
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "4.2";
+            TARGET_NAME = "SwiftBinaryTests";
+         };
+         name = "Debug";
+      };
+      "OBJ_65" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_MODULES = "YES";
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "SwiftBinary.xcodeproj/SwiftBinaryTests_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks"
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "4.2";
+            TARGET_NAME = "SwiftBinaryTests";
+         };
+         name = "Release";
+      };
+      "OBJ_66" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_67",
+            "OBJ_68"
+         );
+      };
+      "OBJ_67" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_24";
+      };
+      "OBJ_68" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_25";
+      };
+      "OBJ_69" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_70"
+         );
+      };
+      "OBJ_7" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_8"
+         );
+         name = "Sources";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_70" = {
+         isa = "PBXBuildFile";
+         fileRef = "SwiftBinary::SwiftBinary::Product";
+      };
+      "OBJ_71" = {
+         isa = "PBXTargetDependency";
+         target = "SwiftBinary::SwiftBinary";
+      };
+      "OBJ_8" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_9",
+            "OBJ_10",
+            "OBJ_11",
+            "OBJ_12",
+            "OBJ_13",
+            "OBJ_14",
+            "OBJ_15",
+            "OBJ_16",
+            "OBJ_17",
+            "OBJ_18",
+            "OBJ_19",
+            "OBJ_20",
+            "OBJ_21"
+         );
+         name = "SwiftBinary";
+         path = "Sources/SwiftBinary";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_9" = {
+         isa = "PBXFileReference";
+         path = "Swift.Binary.h";
+         sourceTree = "<group>";
+      };
+      "SwiftBinary::SwiftBinary" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_34";
+         buildPhases = (
+            "OBJ_37",
+            "OBJ_50"
+         );
+         dependencies = (
+         );
+         name = "SwiftBinary";
+         productName = "SwiftBinary";
+         productReference = "SwiftBinary::SwiftBinary::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "SwiftBinary::SwiftBinary::Product" = {
+         isa = "PBXFileReference";
+         path = "SwiftBinary.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "SwiftBinary::SwiftBinaryPackageTests::ProductTarget" = {
+         isa = "PBXAggregateTarget";
+         buildConfigurationList = "OBJ_58";
+         buildPhases = (
+         );
+         dependencies = (
+            "OBJ_61"
+         );
+         name = "SwiftBinaryPackageTests";
+         productName = "SwiftBinaryPackageTests";
+      };
+      "SwiftBinary::SwiftBinaryTests" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_63";
+         buildPhases = (
+            "OBJ_66",
+            "OBJ_69"
+         );
+         dependencies = (
+            "OBJ_71"
+         );
+         name = "SwiftBinaryTests";
+         productName = "SwiftBinaryTests";
+         productReference = "SwiftBinary::SwiftBinaryTests::Product";
+         productType = "com.apple.product-type.bundle.unit-test";
+      };
+      "SwiftBinary::SwiftBinaryTests::Product" = {
+         isa = "PBXFileReference";
+         path = "SwiftBinaryTests.xctest";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "SwiftBinary::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_52";
+         buildPhases = (
+            "OBJ_55"
+         );
+         dependencies = (
+         );
+         name = "SwiftBinaryPackageDescription";
+         productName = "SwiftBinaryPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+   };
+   rootObject = "OBJ_1";
 }

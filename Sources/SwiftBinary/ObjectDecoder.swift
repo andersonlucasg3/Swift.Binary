@@ -69,7 +69,7 @@ public class ObjectDecoder {
 	}
 
 	fileprivate func populateProperty(with value: Token, intoObject instance: DecodableProtocol) {
-		switch value.type {
+		switch value.type! {
 		case .int8: self.setProperty(for: value as! IvarToken<Int8>, intoObject: instance); break
 		case .int16: self.setProperty(for: value as! IvarToken<Int64>, intoObject: instance); break
 		case .int32: self.setProperty(for: value as! IvarToken<Int32>, intoObject: instance); break
@@ -86,7 +86,7 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func populateArrayProperty(with value: Token, intoObject instance: DecodableProtocol) {
-		switch value.type {
+		switch value.type! {
 		case .arrayInt8: self.setProperty(for: value as! IvarArray<Int8>, intoObject: instance); break
 		case .arrayInt16: self.setProperty(for: value as! IvarArray<Int16>, intoObject: instance); break
 		case .arrayInt32: self.setProperty(for: value as! IvarArray<Int32>, intoObject: instance); break
@@ -220,7 +220,7 @@ public class ObjectDecoder {
 		} else if token.type == .arrayObject {
 			try self.populateArray(values: token as! IvarArray<IvarObject>, intoObject: object)
 		} else {
-			throw NSError(domain: "Unsupported array type \(token.type)", code: -1)
+			throw NSError(domain: "Unsupported array type \(String.init(describing: token.type))", code: -1)
 		}
 	}
 	
@@ -246,7 +246,7 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func setFixedSize(value: Token, intoObject object: AnyObject) {
-		switch value.type {
+		switch value.type! {
 		case .int8: self.populateIvarToken(value: value as! IvarToken<Int8>, intoObject: object); break
 		case .int16: self.populateIvarToken(value: value as! IvarToken<Int16>, intoObject: object); break
 		case .int32: self.populateIvarToken(value: value as! IvarToken<Int32>, intoObject: object); break
@@ -259,7 +259,7 @@ public class ObjectDecoder {
 	}
 
 	fileprivate func getAnyObject(value: Token) -> AnyObject? {
-		switch value.type {
+		switch value.type! {
 		case .int8: return (value as! IvarToken<Int8>).value as AnyObject
 		case .int16: return (value as! IvarToken<Int16>).value as AnyObject
 		case .int32: return (value as! IvarToken<Int32>).value as AnyObject
@@ -282,10 +282,15 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func getIvarReference<T : AnyObject, V>(object: T, name: String) -> UnsafeMutablePointer<V> {
-		let ivar = class_getInstanceVariable(type(of: object), name.withCString({$0}))
+		let ivar = class_getInstanceVariable(T.self, name.withCString({$0}))
 		let offset = ivar_getOffset(ivar!)
-		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
-		return pointer.assumingMemoryBound(to: V.self)
+        var object = object
+        let pointer = withUnsafeMutablePointer(to: &object, { (p: UnsafeMutablePointer<T>) -> UnsafeMutablePointer<V> in
+            let advanced = p.advanced(by: offset)
+            return advanced.withMemoryRebound(to: V.self, capacity: 1, { $0 })
+        })
+//        let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
+        return pointer
 	}
 	
 	#endif

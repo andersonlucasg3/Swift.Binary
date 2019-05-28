@@ -66,17 +66,17 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 	// MARK: decoding implementations
 
 	public override func decode(data: Data) throws {
-		var bytes = data.withUnsafeBytes({ $0 as UnsafePointer<UInt8> })
+		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) }).baseAddress!
 		try self.decode(bytes: &bytes)
 	}
 
-	public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
+    public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
 		self.type = DataType(rawValue: self.readOther(from: &bytes))
 		self.name = self.readString(from: &bytes)
 		try self.readValue(from: &bytes)
 	}
 
-	public override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
+    public override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
 		let count = Int(self.readOther(from: &bytes) as Int32)
 
 		self.value = self.getTypedArray() as! [T]
@@ -104,7 +104,7 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 	}
 	
 	fileprivate func getTypedArray() -> [AnyObject] {
-		switch self.type {
+		switch self.type! {
 		case .arrayInt8: return Array<IvarToken<Int8>>() as [AnyObject]
 		case .arrayInt16: return Array<IvarToken<Int16>>() as [AnyObject]
 		case .arrayInt32: return Array<IvarToken<Int32>>() as [AnyObject]
