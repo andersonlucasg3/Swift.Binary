@@ -3,16 +3,23 @@
 import XCTest
 @testable import SwiftBinary
 
-class SubClass : NSObject {
+class SubClass : NSObject, Codable {
     @objc dynamic var value: Int = 10
 	@objc dynamic var value2: Int = 25
 	@objc dynamic var array: [Data] = [
 		"testando".data(using: .utf8)!
 	]
     @objc dynamic var bool1: Bool = false
+
+	private enum CodingKeys: String, CodingKey {
+		case value
+		case value2
+		case array
+		case bool1
+	}
 }
 
-class TestCommand: NSObject {
+class TestCommand: NSObject, Codable {
     @objc dynamic var aBool1: Bool = false
     @objc dynamic var boolArray = [
         true, false, false, true, true, false
@@ -27,6 +34,18 @@ class TestCommand: NSObject {
 		SubClass()
 	]
 	@objc dynamic var emptyArray: [Float] = []
+
+	private enum CodingKeys: String, CodingKey {
+		case aBool1
+		case boolArray
+		case int1
+		case int2
+		case string
+		case sub
+		case array
+		case classArray
+		case emptyArray
+	}
 }
 
 class Swift_BinaryTests: XCTestCase {
@@ -188,6 +207,26 @@ class Swift_BinaryTests: XCTestCase {
 		assert(command.classArray[1].value2 == 25)
 		assert(command.emptyArray.count == 0)
         assert(command.sub?.bool1 == true)
+	}
+
+	func testPerformanceEncoderJson() {
+		let encoder = JSONEncoder.init()
+		let testCommand = TestCommand.init()
+		measure {
+			do {
+				_ = try encoder.encode(testCommand)
+			} catch { }
+		}
+	}
+
+	func testPerformanceEncoderBinary() {
+		let encoder = ObjectEncoder.init()
+		let testCommand = TestCommand.init()
+		measure {
+			do {
+				_ = try encoder.encodeAny(object: testCommand)
+			} catch { }
+		}
 	}
 }
 

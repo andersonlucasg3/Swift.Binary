@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Dictionary where Key == String, Value == Any {
-	public mutating func append(_ value: Any, for key: String) {
+	mutating func append(_ value: Any, for key: String) {
 		let optionalValue = value as? OptionalProtocol
 		if optionalValue.isSome() {
 			self[key] = optionalValue.unwrap()

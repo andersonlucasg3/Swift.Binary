@@ -28,7 +28,7 @@ public class Token: Encodable, Decodable {
 		
 	}
 	
-	public func decode(bytes: inout UnsafePointer<UInt8>) throws {
+    public func decode(bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
 		
 	}
 }

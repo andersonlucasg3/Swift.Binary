@@ -62,7 +62,7 @@ public class IvarToken<T>: Token {
 	}
 
 	public func writeValue(into data: inout Data) throws {
-		switch self.type {
+		switch self.type! {
 		case .string: self.writeString(self.value as! String, into: &data); break
 		case .data: self.writeData(self.value as! Data, into: &data); break
 		default: self.writeOther(self.value, info: &data); break
@@ -72,21 +72,22 @@ public class IvarToken<T>: Token {
 	// Decoding implementations
 
 	public override func decode(data: Data) throws {
-		var bytes = data.withUnsafeBytes({ $0 as UnsafePointer<UInt8> })
-		try self.decode(bytes: &bytes)
+		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) })
+        var count = data.count
+		try self.decode(bytes: &bytes, totalSize: &count)
 	}
 
-	public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
-		self.type = DataType(rawValue: self.readOther(from: &bytes))
-		self.name = self.readString(from: &bytes)
-		try self.readValue(from: &bytes)
+    public override func decode(bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
+		self.type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize))
+		self.name = self.readString(from: &bytes, totalSize: &totalSize)
+		try self.readValue(from: &bytes, totalSize: &totalSize)
 	}
 
-	public func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
-		switch self.type {
-		case .string: self.value = self.readString(from: &bytes) as! T; break
-		case .data: self.value = self.readData(from: &bytes) as! T; break
-		default: self.value = self.readOther(from: &bytes); break
+    public func readValue(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
+		switch self.type! {
+        case .string: self.value = self.readString(from: &bytes, totalSize: &totalSize) as! T; break
+        case .data: self.value = self.readData(from: &bytes, totalSize: &totalSize) as! T; break
+        default: self.value = self.readOther(from: &bytes, totalSize: &totalSize); break
 		}
 	}
 }

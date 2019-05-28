@@ -29,24 +29,25 @@ public class IvarObject: IvarToken<Array<Token>> {
 	// MARK: decoding implementations
 
 	public override func decode(data: Data) throws {
-		var bytes = data.withUnsafeBytes({ $0 as UnsafePointer<UInt8> })
-		try self.decode(bytes: &bytes)
+		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) })
+        var count = data.count
+		try self.decode(bytes: &bytes, totalSize: &count)
 	}
 
-	public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
-		self.type = DataType(rawValue: self.readOther(from: &bytes))
-		self.name = self.readString(from: &bytes)
-		try self.readValue(from: &bytes)
+    public override func decode(bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
+		self.type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize))
+		self.name = self.readString(from: &bytes, totalSize: &totalSize)
+		try self.readValue(from: &bytes, totalSize: &totalSize)
 	}
 
-	public override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
-		let count = Int(self.readOther(from: &bytes) as Int32)
+	public override func readValue(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
+		let count = Int(self.readOther(from: &bytes, totalSize: &totalSize) as Int32)
 		
 		self.value = Array<Token>()
 		for _ in 0..<count {
-			let type = DataType(rawValue: self.readOther(from: &bytes, advance: false))
+			let type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize, advance: false))
 			let decodable = try type!.getIvarInstance()
-			try decodable.decode(bytes: &bytes)
+			try decodable.decode(bytes: &bytes, totalSize: &totalSize)
 			self.value.append(decodable as! Token)
 		}
 	}
