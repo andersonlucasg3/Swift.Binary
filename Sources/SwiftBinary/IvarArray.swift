@@ -66,39 +66,38 @@ public class IvarArray<T> : IvarToken<Array<T>> {
 	// MARK: decoding implementations
 
 	public override func decode(data: Data) throws {
-		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) })
-        var count = data.count
-		try self.decode(bytes: &bytes, totalSize: &count)
+		var bytes = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) }).baseAddress!
+		try self.decode(bytes: &bytes)
 	}
 
-    public override func decode(bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
-		self.type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize))
-		self.name = self.readString(from: &bytes, totalSize: &totalSize)
-		try self.readValue(from: &bytes, totalSize: &totalSize)
+    public override func decode(bytes: inout UnsafePointer<UInt8>) throws {
+		self.type = DataType(rawValue: self.readOther(from: &bytes))
+		self.name = self.readString(from: &bytes)
+		try self.readValue(from: &bytes)
 	}
 
-    public override func readValue(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws {
-		let count = Int(self.readOther(from: &bytes, totalSize: &totalSize) as Int32)
+    public override func readValue(from bytes: inout UnsafePointer<UInt8>) throws {
+		let count = Int(self.readOther(from: &bytes) as Int32)
 
 		self.value = self.getTypedArray() as! [T]
 		if DataType.isFixedSize(type: T.self) {
 			for _ in 0..<count {
-				self.value.append(self.readOther(from: &bytes, totalSize: &totalSize))
+				self.value.append(self.readOther(from: &bytes))
 			}
 		} else if DataType.isSizeable(type: T.self) {
 			for _ in 0..<count {
-				let type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize, advance: false))
+				let type = DataType(rawValue: self.readOther(from: &bytes, advance: false))
 				if type == .string {
-					self.value.append(self.readString(from: &bytes, totalSize: &totalSize) as! T)
+					self.value.append(self.readString(from: &bytes) as! T)
 				} else {
-					self.value.append(self.readData(from: &bytes, totalSize: &totalSize) as! T)
+					self.value.append(self.readData(from: &bytes) as! T)
 				}
 			}
 		} else {
 			for _ in 0..<count {
-				let type = DataType(rawValue: self.readOther(from: &bytes, totalSize: &totalSize, advance: false))
+				let type = DataType(rawValue: self.readOther(from: &bytes, advance: false))
 				let decodable = try type!.getIvarInstance()
-				try decodable.decode(bytes: &bytes, totalSize: &totalSize)
+				try decodable.decode(bytes: &bytes)
 				self.value.append(decodable as! T)
 			}
 		}

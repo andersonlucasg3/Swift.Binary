@@ -6,46 +6,44 @@ import Foundation
 
 public protocol Decodable : class {
 	func decode(data: Data) throws
-    func decode(bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) throws
+    func decode(bytes: inout UnsafePointer<UInt8>) throws
 }
 
 public extension Decodable {
-    func advanced<T>(pointer: UnsafeBufferPointer<UInt8>, totalSize: inout Int, for type: T.Type) -> UnsafeBufferPointer<UInt8> {
-        let layoutSize = MemoryLayout<T>.stride
-        return self.advanced(pointer: pointer, totalSize: &totalSize, advanceValue: layoutSize, for: T.self)
+    func advanced<T>(pointer: UnsafePointer<UInt8>, for type: T.Type, count: Int = 1) -> UnsafePointer<UInt8> {
+        let advanceCount = MemoryLayout<T>.size * count
+        return pointer.advanced(by: advanceCount)
     }
     
-    func advanced<T>(pointer: UnsafeBufferPointer<UInt8>, totalSize: inout Int, advanceValue: Int, for type: T.Type) -> UnsafeBufferPointer<UInt8> {
-        totalSize = totalSize - advanceValue * MemoryLayout<T>.stride
-        return pointer.withUnsafeBytes { (pointer) -> UnsafeBufferPointer<UInt8> in
-            let unsafePointer = pointer.baseAddress!.advanced(by: advanceValue).assumingMemoryBound(to: UInt8.self)
-            return UnsafeBufferPointer<UInt8>.init(start: unsafePointer, count: totalSize)
-        }
-    }
-    
-    func readString(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) -> String {
-        let length = bytes.withUnsafeBytes({ $0.load(as: Int32.self) })
-        bytes = self.advanced(pointer: bytes, totalSize: &totalSize, for: Int32.self)
+    func readString(from bytes: inout UnsafePointer<UInt8>) -> String {
+        let length = bytes.withMemoryRebound(to: Int32.self, capacity: 1, { $0.pointee })
+        bytes = self.advanced(pointer: bytes, for: Int32.self)
 
-        guard let string = String(data: Data.init(buffer: bytes), encoding: .utf8) else { return "" }
-        bytes = self.advanced(pointer: bytes, totalSize: &totalSize, advanceValue: Int.init(length), for: UInt8.self)
+        let buffer = UnsafeBufferPointer.init(start: bytes, count: Int.init(length))
+        let data = Data.init(buffer: buffer)
+        guard let string = String(data: data, encoding: .utf8) else { return "" }
+        bytes = self.advanced(pointer: bytes, for: UInt8.self, count: Int.init(length))
 		return string
 	}
 
-    func readData(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int) -> Data {
-        let length = bytes.withMemoryRebound(to: Int32.self, { $0.baseAddress! }).pointee
-        bytes = self.advanced(pointer: bytes, totalSize: &totalSize, for: Int32.self)
+    func readData(from bytes: inout UnsafePointer<UInt8>) -> Data {
+        let length = bytes.withMemoryRebound(to: Int32.self, capacity: 1, { $0.pointee })
+        bytes = self.advanced(pointer: bytes, for: Int32.self)
         
-		let data = Data.init(buffer: bytes)
-        bytes = self.advanced(pointer: bytes, totalSize: &totalSize, advanceValue: Int.init(length), for: UInt8.self)
+		let data = Data.init(buffer: UnsafeBufferPointer.init(start: bytes, count: Int.init(length)))
+        bytes = self.advanced(pointer: bytes, for: UInt8.self, count: Int.init(length))
 		return data
 	}
 
-    func readOther<T>(from bytes: inout UnsafeBufferPointer<UInt8>, totalSize: inout Int, advance: Bool? = nil) -> T {
-        let value = bytes.withUnsafeBytes({ $0.load(as: T.self) })
-		if advance.value(true) {
-            bytes = self.advanced(pointer: bytes, totalSize: &totalSize, for: T.self)
-		}
-		return value
+    func readOther<T>(from bytes: inout UnsafePointer<UInt8>, advance: Bool? = nil) -> T {
+        defer {
+            if advance.value(true) {
+                bytes = self.advanced(pointer: bytes, for: T.self)
+            }
+        }
+        if T.self == UInt8.self {
+            return bytes.pointee as! T
+        }
+        return bytes.withMemoryRebound(to: T.self, capacity: 1, { $0.pointee })
 	}
 }

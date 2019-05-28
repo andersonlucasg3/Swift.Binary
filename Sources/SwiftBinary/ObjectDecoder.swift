@@ -282,10 +282,15 @@ public class ObjectDecoder {
 	}
 	
 	fileprivate func getIvarReference<T : AnyObject, V>(object: T, name: String) -> UnsafeMutablePointer<V> {
-		let ivar = class_getInstanceVariable(type(of: object), name.withCString({$0}))
+		let ivar = class_getInstanceVariable(T.self, name.withCString({$0}))
 		let offset = ivar_getOffset(ivar!)
-		let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
-		return pointer.assumingMemoryBound(to: V.self)
+        var object = object
+        let pointer = withUnsafeMutablePointer(to: &object, { (p: UnsafeMutablePointer<T>) -> UnsafeMutablePointer<V> in
+            let advanced = p.advanced(by: offset)
+            return advanced.withMemoryRebound(to: V.self, capacity: 1, { $0 })
+        })
+//        let pointer = Unmanaged.passUnretained(object).toOpaque().advanced(by: offset)
+        return pointer
 	}
 	
 	#endif

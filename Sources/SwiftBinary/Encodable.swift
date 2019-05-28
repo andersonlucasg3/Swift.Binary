@@ -11,25 +11,24 @@ public protocol Encodable : class {
 public extension Encodable {
 	func writeString(_ string: String, into data: inout Data) {
         var length = Int32(string.lengthOfBytes(using: .utf8))
-		data.append(self.unsafeBytes(of: &length))
+		data.append(self.unsafeBytes(of: &length), count: MemoryLayout<Int32>.size)
 
         data.append(string.data(using: .utf8)!)
 	}
 
 	func writeData(_ dt: Data, into data: inout Data) {
 		var length = Int32(dt.count)
-		data.append(self.unsafeBytes(of: &length))
+		data.append(self.unsafeBytes(of: &length), count: MemoryLayout<Int32>.size)
 		data.append(dt)
 	}
 
 	func writeOther<T>(_ other: T, info data: inout Data) {
 		var value = other
-		data.append(self.unsafeBytes(of: &value))
+		data.append(self.unsafeBytes(of: &value), count: MemoryLayout<T>.size)
 	}
 
-	func unsafeBytes<T>(of value: inout T) -> UnsafeBufferPointer<UInt8> {
-        return withUnsafeBytes(of: &value, {
-            return $0.bindMemory(to: UInt8.self)
-        })
+	func unsafeBytes<T>(of value: inout T) -> UnsafePointer<UInt8> {
+        let size = MemoryLayout<T>.size
+        return withUnsafePointer(to: &value, { $0.withMemoryRebound(to: UInt8.self, capacity: size, { $0 }) })
 	}
 }
