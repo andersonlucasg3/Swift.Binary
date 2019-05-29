@@ -9,14 +9,6 @@ struct Complex: Codable {
     let arrayInt: [Int]
 }
 
-struct ComplexArray: Codable {
-    
-}
-
-//struct ComplexChild: Codable {
-//
-//}
-
 class SwiftBinaryTests: XCTestCase {
     func testValueTypes() {
         assert(Int.self == ValueType.int64)
@@ -109,7 +101,7 @@ class SwiftBinaryTests: XCTestCase {
         assert(writer.buffer == stringValue)
     }
     
-    func testEncoder() {
+    func testEncoder() throws {
         let value = Complex.init(string: "legal", int: 10, arrayInt: [1, 2, 3, 4, 5])
         
         let encoder = BinaryEncoder.init()
@@ -126,22 +118,28 @@ class SwiftBinaryTests: XCTestCase {
         }
         
         let testWriter = StringWriter.init()
-        testWriter.insert(type: .object, is: false)
-        testWriter.insert(value: Int32.init(0))
-        testWriter.insert(keyCount: 3)
-        testWriter.insert(type: .string, is: false)
-        testWriter.insert(key: "string")
-        testWriter.insert(value: "legal")
-        testWriter.insert(type: .int64, is: false)
-        testWriter.insert(key: "int")
-        testWriter.insert(value: 10)
-        testWriter.insert(type: .int64, is: true)
-        testWriter.insert(key: "arrayInt")
-        [1, 2, 3, 4, 5].forEach({ testWriter.insert(value: $0) })
+        
+        self.beginObject(in: testWriter, keyCount: 3)
+        try self.objectProperty(in: testWriter, key: "string", value: "legal")
+        try self.objectProperty(in: testWriter, key: "int", value: 10)
+        try self.objectProperty(in: testWriter, key: "arrayInt", value: [1, 2, 3, 4, 5])
         
         assert(writer.buffer == testWriter.buffer)
     }
+    
+    fileprivate func beginObject(in writer: WriterProtocol, key: String = "", keyCount: Int) {
+        writer.insert(type: .object, is: false)
+        writer.insert(key: key)
+        writer.insert(keyCount: keyCount)
+    }
+    
+    fileprivate func objectProperty<T>(in writer: WriterProtocol, key: String, value: T) throws where T: Encodable {
+        let processor = EncodeTypeProcessor.init(writer: writer)
+        try processor.write(value: value, key: key)
+    }
 }
+
+
 
 extension BinaryEncoder {
     public func encode(_ value: Encodable, writer: WriterProtocol) throws {
