@@ -7,12 +7,10 @@ struct Complex: Codable {
     let string: String
     let int: Int
     let arrayInt: [Int]
+}
+
+struct ComplexArray: Codable {
     
-    private enum CodingKeys: String, CodingKey {
-        case string
-        case int
-        case arrayInt
-    }
 }
 
 //struct ComplexChild: Codable {
@@ -21,7 +19,8 @@ struct Complex: Codable {
 
 class SwiftBinaryTests: XCTestCase {
     func testValueTypes() {
-        assert(Int.self == ValueType.int)
+        assert(Int.self == ValueType.int64)
+        assert(UInt.self == ValueType.int64)
         assert(Int8.self == ValueType.int8)
         assert(UInt8.self == ValueType.int8)
         
@@ -40,18 +39,6 @@ class SwiftBinaryTests: XCTestCase {
         assert(String.self == ValueType.string)
         assert(Data.self == ValueType.data)
         assert(Complex.self == ValueType.object)
-        
-//        assert(Array<Int>.self == .arrayInt)
-//        assert(Array<Int8>.self == .arrayInt8)
-//        assert(Array<Int16>.self == .arrayInt16)
-//        assert(Array<Int32>.self == .arrayInt32)
-//        assert(Array<Int64>.self == .arrayInt64)
-//        assert(Array<Bool>.self == .arrayBool)
-//        assert(Array<Float>.self == .arrayFloat)
-//        assert(Array<Double>.self == .arrayDouble)
-//        assert(Array<String>.self == .arrayString)
-//        assert(Array<Data>.self == .arrayData)
-//        assert(Array<Complex>.self == .arrayObject)
     }
     
     func testTypeToValueTypeConversion() {
@@ -99,40 +86,67 @@ class SwiftBinaryTests: XCTestCase {
         }
     }
     
-    func testWriterPrimitiveValue() throws {
+    func testWriterPrimitiveValue() {
         let writer = StringWriter.init()
         
-        try writer.insert(type: .int, is: false)
-        try writer.insert(key: "value")
-        try writer.insert(value: 10)
+        writer.insert(type: .int64, is: false)
+        writer.insert(key: "value")
+        writer.insert(value: 10)
         
-        let stringValue = """
-        type: \(0) |
-        array: \(0) |
-        key length: \("value".lengthOfBytes(using: .utf8)) |
-        key content: value |
-        value: \(10) |
-        """
+        let stringValue = "\(ValueType.int64.rawValue)0\("value".lengthOfBytes(using: .utf8))value10"
         assert(writer.buffer == stringValue)
     }
     
     func testWriterArrayPrimitiveValue() throws {
         let writer = StringWriter.init()
         
-        try writer.insert(type: .int, is: true)
-        try writer.insert(key: "value")
-        try writer.insert(contentsOf: [1, 2, 3, 4, 5])
+        writer.insert(type: .int64, is: true)
+        writer.insert(key: "value")
+        writer.insert(contentsOf: [1, 2, 3, 4, 5])
         
-        let stringValue = """
-        type: \(0) |
-        array: \(1) |
-        key length: \("value".lengthOfBytes(using: .utf8)) |
-        key content: \("value") |
-        array count: \(5) |
-        value: \(1) |value: \(2) |value: \(3) |value: \(4) |value: \(5) |
-        """
+        let stringValue = "\(ValueType.int64.rawValue)\(1)\("value".lengthOfBytes(using: .utf8))value512345"
         
         assert(writer.buffer == stringValue)
+    }
+    
+    func testEncoder() {
+        let value = Complex.init(string: "legal", int: 10, arrayInt: [1, 2, 3, 4, 5])
+        
+        let encoder = BinaryEncoder.init()
+        let writer = StringWriter.init()
+        do {
+            try encoder.encode(value, writer: writer)
+        } catch let error as BinaryEncoderError {
+            switch error {
+            case .typeNotExpected(let type):
+                assert(false, "Type not expected: \(type)")
+            }
+        } catch {
+            assert(false, "Failure: \(error.localizedDescription)")
+        }
+        
+        let testWriter = StringWriter.init()
+        testWriter.insert(type: .object, is: false)
+        testWriter.insert(value: Int32.init(0))
+        testWriter.insert(keyCount: 3)
+        testWriter.insert(type: .string, is: false)
+        testWriter.insert(key: "string")
+        testWriter.insert(value: "legal")
+        testWriter.insert(type: .int64, is: false)
+        testWriter.insert(key: "int")
+        testWriter.insert(value: 10)
+        testWriter.insert(type: .int64, is: true)
+        testWriter.insert(key: "arrayInt")
+        [1, 2, 3, 4, 5].forEach({ testWriter.insert(value: $0) })
+        
+        assert(writer.buffer == testWriter.buffer)
+    }
+}
+
+extension BinaryEncoder {
+    public func encode(_ value: Encodable, writer: WriterProtocol) throws {
+        let enc = BinaryEnc.init(writer: writer, object: value)
+        try value.encode(to: enc)
     }
 }
 
