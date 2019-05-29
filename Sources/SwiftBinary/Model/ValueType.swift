@@ -7,12 +7,9 @@
 
 import Foundation
 
-enum ValueTypeError: Error {
-    case typeNotExpected(type: Any.Type)
-}
-
 enum ValueType: UInt8 {
-    case int8 = 0
+    case int = 0
+    case int8
     case int16
     case int32
     case int64
@@ -23,8 +20,23 @@ enum ValueType: UInt8 {
     case data
     case object
     
+    // array types
+    case arrayInt
+    case arrayInt8
+    case arrayInt16
+    case arrayInt32
+    case arrayInt64
+    case arrayFloat
+    case arrayDouble
+    case arrayBool
+    case arrayString
+    case arrayData
+    case arrayObject
+    
     static func from<T>(type: T.Type = T.self) throws -> ValueType {
-        if type == Int8.self || type == UInt8.self {
+        if type == Int.self {
+            return .int
+        } else if type == Int8.self || type == UInt8.self {
             return .int8
         } else if type == Int16.self || type == UInt16.self {
             return .int16
@@ -45,12 +57,13 @@ enum ValueType: UInt8 {
         } else if let _ = type as? Codable.Type {
             return .object
         }
-        throw ValueTypeError.typeNotExpected(type: type)
+        throw BinaryEncoderError.typeNotExpected(type: type)
     }
 }
 
 func ==<T>(lhs: T.Type, rhs: ValueType) -> Bool {
     switch rhs {
+    case .int: return lhs == Int.self
     case .int8: return lhs == Int8.self || lhs == UInt8.self
     case .int16: return lhs == Int16.self || lhs == UInt16.self
     case .int32: return lhs == Int32.self || lhs == UInt32.self
@@ -60,6 +73,17 @@ func ==<T>(lhs: T.Type, rhs: ValueType) -> Bool {
     case .bool: return lhs == Bool.self
     case .string: return lhs == String.self
     case .data: return lhs == Data.self
+    case .arrayInt: return lhs == Array<Int>.self
+    case .arrayInt8: return lhs == Array<Int8>.self || lhs == Array<UInt8>.self
+    case .arrayInt16: return lhs == Array<Int16>.self || lhs == Array<UInt16>.self
+    case .arrayInt32: return lhs == Array<Int32>.self || lhs == Array<UInt32>.self
+    case .arrayInt64: return lhs == Array<Int64>.self || lhs == Array<UInt64>.self
+    case .arrayFloat: return lhs == Array<Float>.self
+    case .arrayDouble: return lhs == Array<Double>.self
+    case .arrayBool: return lhs == Array<Bool>.self
+    case .arrayString: return lhs == Array<String>.self
+    case .arrayData: return lhs == Array<Data>.self
+    case .arrayObject: return (Array<T>.Element.self as? Codable.Type) != nil
     case .object: return (lhs as? Codable.Type) != nil
     }
 }

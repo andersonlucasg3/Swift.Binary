@@ -4,11 +4,24 @@ import XCTest
 @testable import SwiftBinary
 
 struct Complex: Codable {
+    let string: String
+    let int: Int
+    let arrayInt: [Int]
     
+    private enum CodingKeys: String, CodingKey {
+        case string
+        case int
+        case arrayInt
+    }
 }
+
+//struct ComplexChild: Codable {
+//
+//}
 
 class SwiftBinaryTests: XCTestCase {
     func testValueTypes() {
+        assert(Int.self == ValueType.int)
         assert(Int8.self == ValueType.int8)
         assert(UInt8.self == ValueType.int8)
         
@@ -27,6 +40,8 @@ class SwiftBinaryTests: XCTestCase {
         assert(String.self == ValueType.string)
         assert(Data.self == ValueType.data)
         assert(Complex.self == ValueType.object)
+        
+        assert(Array<Int8>.self == .int8)
     }
     
     func testTypeToValueTypeConversion() {
@@ -69,6 +84,21 @@ class SwiftBinaryTests: XCTestCase {
             assert(isString)
             assert(isData)
             assert(isObject)
+        } catch {
+            assert(false, error.localizedDescription)
+        }
+    }
+    
+    func testEncoder() {
+        let encoder = BinaryEncoder.init()
+        let value = Complex.init(string: "value", int: 10, arrayInt: [1, 2, 3, 4, 5])
+        do {
+            _ = try encoder.encode(value)
+        } catch let err as BinaryEncoderError {
+            switch err {
+            case .typeNotExpected(let type):
+                assert(false, "Type not expected: \(type)")
+            }
         } catch {
             assert(false, error.localizedDescription)
         }

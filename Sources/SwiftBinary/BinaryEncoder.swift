@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BinaryEncoder {
+public class BinaryEncoder {
     public func encode(_ value: Encodable) throws -> Data {
         let encoder = _BinaryEncoder.init()
         try value.encode(to: encoder)
@@ -32,7 +32,7 @@ extension _BinaryEncoder {
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
         assertCanCreateContainer()
         
-        let container = KeyedContainer<Key>.init(codingPath: self.codingPath, userInfo: self.userInfo)
+        let container = KeyedContainer<Key>.init(encoder: self, codingPath: self.codingPath, userInfo: self.userInfo, into: &self.data)
         self.container = container
         
         return KeyedEncodingContainer.init(container)
@@ -41,7 +41,7 @@ extension _BinaryEncoder {
     func unkeyedContainer() -> UnkeyedEncodingContainer {
         assertCanCreateContainer()
         
-        let container = UnkeyedContainer.init(codingPath: self.codingPath, userInfo: self.userInfo)
+        let container = UnkeyedContainer.init(codingPath: self.codingPath, userInfo: self.userInfo, into: &self.data)
         self.container = container
         
         return container
@@ -50,9 +50,9 @@ extension _BinaryEncoder {
     func singleValueContainer() -> SingleValueEncodingContainer {
         assertCanCreateContainer()
         
-        let container = SingleValueContainer.init(codingPath: self.codingPath, userInfo: self.userInfo)
+        let container = SingleValueContainer.init(codingPath: self.codingPath, userInfo: self.userInfo, into: &self.data)
         self.container = container
-        
+                
         return container
     }
 }

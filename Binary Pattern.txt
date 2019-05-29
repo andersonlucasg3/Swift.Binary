@@ -1,0 +1,11 @@
+object:
+
+def object = 1 - type | 1 - array (false) | 4 - key name length | n - key content | 4 - number of keys | [value]
+
+def objArray = 1 - type | 1 - array (true) | 4 - key name length | n - key content | 4 - number of objects | [object...]
+
+primitive types:
+
+1 - type | 1 - array (false) | 4 - key name length | n - key content | n - value
+
+1 - type | 1 - array (true) | 4 - key name length | n - key content | 4 - number of values | [value]
