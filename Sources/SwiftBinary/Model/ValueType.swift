@@ -19,7 +19,7 @@ enum ValueType: UInt8 {
     case data
     case object
     
-    static func from<T>(type: T.Type = T.self) throws -> ValueType {
+    static func from(type: Encodable.Type) throws -> ValueType {
         if type == Int8.self || type == UInt8.self {
             return .int8
         } else if type == Int16.self || type == UInt16.self {

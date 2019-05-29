@@ -9,6 +9,14 @@ struct Complex: Codable {
     let arrayInt: [Int]
 }
 
+struct Complex2: Codable {
+    let string: String
+    let int: Int
+    let data: Data?
+    let arrayString: [String]
+    let complex: Complex
+}
+
 class SwiftBinaryTests: XCTestCase {
     func testValueTypes() {
         assert(Int.self == ValueType.int64)
@@ -119,16 +127,140 @@ class SwiftBinaryTests: XCTestCase {
         
         let testWriter = StringWriter.init()
         
-        self.beginObject(in: testWriter, keyCount: 3)
-        try self.objectProperty(in: testWriter, key: "string", value: "legal")
-        try self.objectProperty(in: testWriter, key: "int", value: 10)
-        try self.objectProperty(in: testWriter, key: "arrayInt", value: [1, 2, 3, 4, 5])
+        self.beginObject(in: testWriter, isArray: false, keyCount: 3)
+        try self.objectProperty(in: testWriter, key: "string", value: value.string)
+        try self.objectProperty(in: testWriter, key: "int", value: value.int)
+        try self.objectProperty(in: testWriter, key: "arrayInt", value: value.arrayInt)
         
         assert(writer.buffer == testWriter.buffer)
     }
     
-    fileprivate func beginObject(in writer: WriterProtocol, key: String = "", keyCount: Int) {
-        writer.insert(type: .object, is: false)
+    func testComplexEncoder() throws {
+        let value = Complex2.init(string: "legal", int: 1, data: "cool".data(using: .utf8)!, arrayString: ["cool1", "cool2"], complex: Complex.init(string: "legal2", int: 2, arrayInt: [1, 2, 3, 4]))
+        
+        let encoder = BinaryEncoder.init()
+        let writer = StringWriter.init()
+        do {
+            try encoder.encode(value, writer: writer)
+        } catch let error as BinaryEncoderError {
+            switch error {
+            case .typeNotExpected(let type):
+                assert(false, "Type not expected: \(type)")
+            }
+        } catch {
+            assert(false, "Failure: \(error.localizedDescription)")
+        }
+        
+        let testWriter = StringWriter.init()
+        
+        self.beginObject(in: testWriter, isArray: false, keyCount: 5)
+        try self.objectProperty(in: testWriter, key: "string", value: value.string)
+        try self.objectProperty(in: testWriter, key: "int", value: value.int)
+        try self.objectProperty(in: testWriter, key: "data", value: value.data)
+        try self.objectProperty(in: testWriter, key: "arrayString", values: value.arrayString)
+        self.beginObject(in: testWriter, isArray: false, key: "complex", keyCount: 3)
+        try self.objectProperty(in: testWriter, key: "string", value: value.complex.string)
+        try self.objectProperty(in: testWriter, key: "int", value: value.complex.int)
+        try self.objectProperty(in: testWriter, key: "arrayInt", values: value.complex.arrayInt)
+        
+        
+        assert(writer.buffer == testWriter.buffer)
+    }
+    
+    func testEncodeRootArrayInt() throws {
+        let value = [1, 2, 3, 4, 5]
+        
+        let writer = StringWriter.init()
+        
+        let encoder = BinaryEncoder.init()
+        try encoder.encode(value, writer: writer)
+        
+        let testWriter = StringWriter.init()
+        
+        try self.objectProperty(in: testWriter, key: "", values: value)
+        
+        assert(writer.buffer == testWriter.buffer)
+    }
+    
+    func testEncodeRootArrayString() throws {
+        let value = ["1", "2", "3", "4"]
+        
+        let writer = StringWriter.init()
+        
+        let encoder = BinaryEncoder.init()
+        try encoder.encode(value, writer: writer)
+        
+        let testWriter = StringWriter.init()
+        
+        try self.objectProperty(in: testWriter, key: "", values: value)
+        
+        assert(writer.buffer == testWriter.buffer)
+    }
+    
+    func testEncodeRootArrayObject() throws {
+        let value = Complex.init(string: "legal2", int: 2, arrayInt: [1, 2, 3, 4])
+        let values = [ value, value ]
+        
+        let writer = StringWriter.init()
+        
+        let encoder = BinaryEncoder.init()
+        try encoder.encode(values, writer: writer)
+        
+        let testWriter = StringWriter.init()
+        
+        self.beginObject(in: testWriter, isArray: true, keyCount: 2)
+        try (0..<2).forEach({ _ in
+            self.beginObject(in: testWriter, isArray: false, keyCount: 3)
+            try self.objectProperty(in: testWriter, key: "string", value: value.string)
+            try self.objectProperty(in: testWriter, key: "int", value: value.int)
+            try self.objectProperty(in: testWriter, key: "arrayInt", values: value.arrayInt)
+        })
+        
+        assert(writer.buffer == testWriter.buffer)
+    }
+    
+    func testPerformanceJson() {
+        let value = Complex2.init(string: "legal", int: 1, data: "cool".data(using: .utf8)!, arrayString: ["cool1", "cool2"], complex: Complex.init(string: "legal2", int: 2, arrayInt: [1, 2, 3, 4]))
+        let values = [
+            value,
+            value,
+            value,
+            value
+        ]
+        
+        let encoder = JSONEncoder.init()
+        self.measure {
+            do {
+                _ = try encoder.encode(values)
+            } catch {
+//                assert(false)
+            }
+        }
+    }
+    
+    func testPerformanceBinary() {
+        let value = Complex2.init(string: "legal", int: 1, data: "cool".data(using: .utf8)!, arrayString: ["cool1", "cool2"], complex: Complex.init(string: "legal2", int: 2, arrayInt: [1, 2, 3, 4]))
+        let values = [
+            value,
+            value,
+            value,
+            value
+        ]
+        
+        let encoder = BinaryEncoder.init()
+        self.measure {
+            do {
+                _ = try encoder.encode(values)
+            } catch {
+//                assert(false, error.localizedDescription)
+            }
+        }
+    }
+    
+    // MARK: - Writer helpers
+    
+    fileprivate func beginObject(in writer: WriterProtocol, isArray: Bool, key: String = "", keyCount: Int) {
+        writer.insert(type: .object, is: isArray)
         writer.insert(key: key)
         writer.insert(keyCount: keyCount)
     }
@@ -137,9 +269,14 @@ class SwiftBinaryTests: XCTestCase {
         let processor = EncodeTypeProcessor.init(writer: writer)
         try processor.write(value: value, key: key)
     }
+    
+    fileprivate func objectProperty<T>(in writer: WriterProtocol, key: String, values: [T]) throws where T: Encodable {
+        let processor = EncodeTypeProcessor.init(writer: writer)
+        writer.insert(type: try ValueType.from(type: T.self), is: true)
+        writer.insert(key: key)
+        try processor.write(value: values)
+    }
 }
-
-
 
 extension BinaryEncoder {
     public func encode(_ value: Encodable, writer: WriterProtocol) throws {

@@ -22,6 +22,9 @@ internal class BinaryEnc: Encoder {
     
     let superEncoder: BinaryEnc?
     let writer: WriterProtocol
+    var codingKey: CodingKey?
+    
+    fileprivate var factory: BinaryEncFactory!
     
     init(writer: WriterProtocol, object: Encodable? = nil) {
         self.superEncoder = nil
@@ -31,35 +34,53 @@ internal class BinaryEnc: Encoder {
         self.userInfo = object != nil ? [.object: object!] : [:]
     }
     
-    init(superEncoder: BinaryEnc, codingPath: [CodingKey] = [], object: Encodable? = nil) {
+    init(superEncoder: BinaryEnc, object: Encodable? = nil) {
         self.superEncoder = superEncoder
         self.writer = superEncoder.writer
-        self.codingPath = codingPath
+        self.codingPath = []
+        self.userInfo = object != nil ? [ .object: object! ] : [:]
+    }
+    
+    init<Key>(superEncoder: BinaryEnc, for key: Key.Type, object: Encodable? = nil) where Key: CodingKey {
+        self.superEncoder = superEncoder
+        self.writer = superEncoder.writer
+        self.codingPath = object?.keys(type: Key.self) ?? []
+        self.factory = Factory<Key>.init()
         
         self.userInfo = object != nil ? [.object: object!] : [:]
     }
     
+    convenience init<Key>(superEncoder: BinaryEnc, for key: Key?, object: Encodable? = nil) where Key: CodingKey {
+        self.init(superEncoder: superEncoder, for: Key.self, object: object)
+        self.codingKey = key
+    }
+    
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
-        let encoder = BinaryEnc.init(superEncoder: self, for: Key.self, of: self.userInfo[.object] as? Encodable)
-        return KeyedEncodingContainer.init(KeyedContainer<Key>.init(encoder: encoder, for: nil))
+        let object = self.userInfo[.object] as? Encodable
+        let encoder = BinaryEnc.init(superEncoder: self, for: type, object: object)
+        return KeyedEncodingContainer.init(KeyedContainer<Key>.init(encoder: encoder, for: self.codingKey))
     }
     
     func unkeyedContainer() -> UnkeyedEncodingContainer {
-        let encoder = BinaryEnc.init(superEncoder: self)
-        return UnkeyedContainer.init(encoder: encoder, for: nil)
+        let object = self.userInfo[.object] as? Encodable
+        let encoder = BinaryEnc.init(writer: self.writer, object: object)
+        return UnkeyedContainer.init(encoder: encoder, for: self.codingKey)
     }
     
     func singleValueContainer() -> SingleValueEncodingContainer {
-        let encoder = BinaryEnc.init(superEncoder: self)
-        return UnkeyedContainer.init(encoder: encoder, for: nil)
+        let object = self.userInfo[.object] as? Encodable
+        let encoder = self.factory.create(superEncoder: self, object: object, for: nil)
+        return UnkeyedContainer.init(encoder: encoder, for: self.codingKey)
     }
 }
 
-extension BinaryEnc {
-    convenience init<Key>(superEncoder: BinaryEnc, for type: Key.Type?, of object: Encodable?) where Key: CodingKey {
-        let keys = object?.mirrored().children.compactMap({ $0.label })
-        
-        self.init(superEncoder: superEncoder, codingPath: keys?.compactMap({ Key.init(stringValue: $0) }) ?? [], object: object)
+protocol BinaryEncFactory {
+    func create(superEncoder: BinaryEnc, object: Encodable?, for key: CodingKey?) -> BinaryEnc
+}
+
+class Factory<Key> : BinaryEncFactory where Key: CodingKey {
+    func create(superEncoder: BinaryEnc, object: Encodable?, for key: CodingKey?) -> BinaryEnc {
+        return BinaryEnc.init(superEncoder: superEncoder, for: key as! Key?, object: object)
     }
 }
 

@@ -8,5 +8,5 @@
 import Foundation
 
 public enum BinaryEncoderError: Error {
-    case typeNotExpected(type: Any.Type)
+    case typeNotExpected(type: Encodable.Type)
 }

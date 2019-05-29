@@ -11,18 +11,18 @@ struct KeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey 
     typealias Key = Key
     
     let encoder: BinaryEnc
+    let codingPath: [CodingKey]
     
     fileprivate lazy var processor = EncodeTypeProcessor.init(writer: self.encoder.writer)
     
-    var codingPath: [CodingKey] {
-        return self.encoder.codingPath
-    }
-    
-    init(encoder: BinaryEnc, for key: String?) {
+    init(encoder: BinaryEnc, for key: CodingKey?) {
         self.encoder = encoder
         
+        let object = encoder.userInfo[.object] as! Encodable
+        self.codingPath = object.keys(type: Key.self)
+        
         self.encoder.writer.insert(type: .object, is: false)
-        self.encoder.writer.insert(key: key ?? "")
+        self.encoder.writer.insert(key: key?.stringValue ?? "")
         self.encoder.writer.insert(keyCount: self.codingPath.count)
     }
     
@@ -31,19 +31,25 @@ struct KeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey 
     }
     
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
-        try self.processor.write(value: value, key: key.stringValue)
+        if value is Data || value is String || value is Array<Data> || value is Array<String> {
+            try self.processor.write(value: value, key: key.stringValue)
+        } else {
+            let factory = Factory<Key>.init()
+            let object = self.encoder.userInfo[.object] as? Encodable
+            try value.encode(to: factory.create(superEncoder: self.encoder, object: object?.property(by: key), for: key))
+        }
     }
     
     func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
         let object = self.encoder.userInfo[.object] as! Encodable
-        let encoder = BinaryEnc.init(superEncoder: self.encoder, for: keyType, of: object.property(by: key))
-        return KeyedEncodingContainer.init(KeyedContainer<NestedKey>.init(encoder: encoder, for: key.stringValue))
+        let encoder = BinaryEnc.init(superEncoder: self.encoder, for: keyType, object: object.property(by: key))
+        return KeyedEncodingContainer.init(KeyedContainer<NestedKey>.init(encoder: encoder, for: key))
     }
     
     func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
         let object = self.encoder.userInfo[.object] as! Encodable
-        let encoder = BinaryEnc.init(superEncoder: self.encoder, for: Key.self, of: object)
-        return UnkeyedContainer.init(encoder: encoder, for: key.stringValue)
+        let encoder = BinaryEnc.init(superEncoder: self.encoder, for: key, object: object)
+        return UnkeyedContainer.init(encoder: encoder, for: key)
     }
     
     func superEncoder() -> Encoder {
