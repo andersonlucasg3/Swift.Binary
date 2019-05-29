@@ -1,5 +1,3 @@
-#if os(iOS) || os(OSX)
-
 import XCTest
 @testable import SwiftBinary
 
@@ -18,6 +16,22 @@ struct Complex2: Codable {
 }
 
 class SwiftBinaryTests: XCTestCase {
+    #if os(Linux)
+    static let allTests = [
+        ("testValueTypes", testValueTypes),
+        ("testTypeToValueTypeConversion", testTypeToValueTypeConversion),
+        ("testWriterPrimitiveValue", testWriterPrimitiveValue),
+        ("testWriterArrayPrimitiveValue", testWriterArrayPrimitiveValue),
+        ("testEncoder", testEncoder),
+        ("testComplexEncoder", testComplexEncoder),
+        ("testEncodeRootArrayInt", testEncodeRootArrayInt),
+        ("testEncodeRootArrayString", testEncodeRootArrayString),
+        ("testEncodeRootArrayObject", testEncodeRootArrayObject),
+        ("testPerformanceJson", testPerformanceJson),
+        ("testPerformanceBinary", testPerformanceBinary)
+    ]
+    #endif
+    
     func testValueTypes() {
         assert(Int.self == ValueType.int64)
         assert(UInt.self == ValueType.int64)
@@ -233,7 +247,7 @@ class SwiftBinaryTests: XCTestCase {
             do {
                 _ = try encoder.encode(values)
             } catch {
-//                assert(false)
+                assert(false)
             }
         }
     }
@@ -252,7 +266,7 @@ class SwiftBinaryTests: XCTestCase {
             do {
                 _ = try encoder.encode(values)
             } catch {
-//                assert(false, error.localizedDescription)
+                assert(false, error.localizedDescription)
             }
         }
     }
@@ -284,5 +298,3 @@ extension BinaryEncoder {
         try value.encode(to: enc)
     }
 }
-
-#endif
