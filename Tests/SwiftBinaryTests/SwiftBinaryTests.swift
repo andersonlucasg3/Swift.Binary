@@ -41,7 +41,17 @@ class SwiftBinaryTests: XCTestCase {
         assert(Data.self == ValueType.data)
         assert(Complex.self == ValueType.object)
         
-        assert(Array<Int8>.self == .int8)
+//        assert(Array<Int>.self == .arrayInt)
+//        assert(Array<Int8>.self == .arrayInt8)
+//        assert(Array<Int16>.self == .arrayInt16)
+//        assert(Array<Int32>.self == .arrayInt32)
+//        assert(Array<Int64>.self == .arrayInt64)
+//        assert(Array<Bool>.self == .arrayBool)
+//        assert(Array<Float>.self == .arrayFloat)
+//        assert(Array<Double>.self == .arrayDouble)
+//        assert(Array<String>.self == .arrayString)
+//        assert(Array<Data>.self == .arrayData)
+//        assert(Array<Complex>.self == .arrayObject)
     }
     
     func testTypeToValueTypeConversion() {
@@ -89,19 +99,40 @@ class SwiftBinaryTests: XCTestCase {
         }
     }
     
-    func testEncoder() {
-        let encoder = BinaryEncoder.init()
-        let value = Complex.init(string: "value", int: 10, arrayInt: [1, 2, 3, 4, 5])
-        do {
-            _ = try encoder.encode(value)
-        } catch let err as BinaryEncoderError {
-            switch err {
-            case .typeNotExpected(let type):
-                assert(false, "Type not expected: \(type)")
-            }
-        } catch {
-            assert(false, error.localizedDescription)
-        }
+    func testWriterPrimitiveValue() throws {
+        let writer = StringWriter.init()
+        
+        try writer.insert(type: .int, is: false)
+        try writer.insert(key: "value")
+        try writer.insert(value: 10)
+        
+        let stringValue = """
+        type: \(0) |
+        array: \(0) |
+        key length: \("value".lengthOfBytes(using: .utf8)) |
+        key content: value |
+        value: \(10) |
+        """
+        assert(writer.buffer == stringValue)
+    }
+    
+    func testWriterArrayPrimitiveValue() throws {
+        let writer = StringWriter.init()
+        
+        try writer.insert(type: .int, is: true)
+        try writer.insert(key: "value")
+        try writer.insert(contentsOf: [1, 2, 3, 4, 5])
+        
+        let stringValue = """
+        type: \(0) |
+        array: \(1) |
+        key length: \("value".lengthOfBytes(using: .utf8)) |
+        key content: \("value") |
+        array count: \(5) |
+        value: \(1) |value: \(2) |value: \(3) |value: \(4) |value: \(5) |
+        """
+        
+        assert(writer.buffer == stringValue)
     }
 }
 

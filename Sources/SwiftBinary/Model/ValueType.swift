@@ -20,18 +20,18 @@ enum ValueType: UInt8 {
     case data
     case object
     
-    // array types
-    case arrayInt
-    case arrayInt8
-    case arrayInt16
-    case arrayInt32
-    case arrayInt64
-    case arrayFloat
-    case arrayDouble
-    case arrayBool
-    case arrayString
-    case arrayData
-    case arrayObject
+//    // array types
+//    case arrayInt
+//    case arrayInt8
+//    case arrayInt16
+//    case arrayInt32
+//    case arrayInt64
+//    case arrayFloat
+//    case arrayDouble
+//    case arrayBool
+//    case arrayString
+//    case arrayData
+//    case arrayObject
     
     static func from<T>(type: T.Type = T.self) throws -> ValueType {
         if type == Int.self {
@@ -73,17 +73,17 @@ func ==<T>(lhs: T.Type, rhs: ValueType) -> Bool {
     case .bool: return lhs == Bool.self
     case .string: return lhs == String.self
     case .data: return lhs == Data.self
-    case .arrayInt: return lhs == Array<Int>.self
-    case .arrayInt8: return lhs == Array<Int8>.self || lhs == Array<UInt8>.self
-    case .arrayInt16: return lhs == Array<Int16>.self || lhs == Array<UInt16>.self
-    case .arrayInt32: return lhs == Array<Int32>.self || lhs == Array<UInt32>.self
-    case .arrayInt64: return lhs == Array<Int64>.self || lhs == Array<UInt64>.self
-    case .arrayFloat: return lhs == Array<Float>.self
-    case .arrayDouble: return lhs == Array<Double>.self
-    case .arrayBool: return lhs == Array<Bool>.self
-    case .arrayString: return lhs == Array<String>.self
-    case .arrayData: return lhs == Array<Data>.self
-    case .arrayObject: return (Array<T>.Element.self as? Codable.Type) != nil
+//    case .arrayInt: return lhs == Array<Int>.self
+//    case .arrayInt8: return lhs == Array<Int8>.self || lhs == Array<UInt8>.self
+//    case .arrayInt16: return lhs == Array<Int16>.self || lhs == Array<UInt16>.self
+//    case .arrayInt32: return lhs == Array<Int32>.self || lhs == Array<UInt32>.self
+//    case .arrayInt64: return lhs == Array<Int64>.self || lhs == Array<UInt64>.self
+//    case .arrayFloat: return lhs == Array<Float>.self
+//    case .arrayDouble: return lhs == Array<Double>.self
+//    case .arrayBool: return lhs == Array<Bool>.self
+//    case .arrayString: return lhs == Array<String>.self
+//    case .arrayData: return lhs == Array<Data>.self
+//    case .arrayObject: return (Array<T>.Element.self as? Codable.Type) != nil
     case .object: return (lhs as? Codable.Type) != nil
     }
 }
