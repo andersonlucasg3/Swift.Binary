@@ -1,5 +1,5 @@
 //
-//  UnkeyedContainer.swift
+//  EncUnkeyedContainer.swift
 //  SwiftBinary
 //
 //  Created by Anderson Lucas de Castro Ramos on 29/05/19.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UnkeyedContainer: UnkeyedEncodingContainer, SingleValueEncodingContainer {
+struct EncUnkeyedContainer: UnkeyedEncodingContainer, SingleValueEncodingContainer {
     fileprivate lazy var processor = EncodeTypeProcessor.init(writer: self.encoder.writer)
     fileprivate var insertedTypeAndKey = false
     
@@ -57,11 +57,11 @@ struct UnkeyedContainer: UnkeyedEncodingContainer, SingleValueEncodingContainer 
     }
     
     mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
-        return KeyedEncodingContainer.init(KeyedContainer<NestedKey>.init(encoder: self.encoder, for: self.key))
+        return KeyedEncodingContainer.init(EncKeyedContainer<NestedKey>.init(encoder: self.encoder, for: self.key))
     }
     
     mutating func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
-        return UnkeyedContainer.init(encoder: self.encoder, for: self.key)
+        return EncUnkeyedContainer.init(encoder: self.encoder, for: self.key)
     }
     
     mutating func superEncoder() -> Encoder {

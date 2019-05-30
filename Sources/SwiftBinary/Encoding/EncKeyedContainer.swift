@@ -1,5 +1,5 @@
 //
-//  KeyedContainer.swift
+//  EncKeyedContainer.swift
 //  SwiftBinary
 //
 //  Created by Anderson Lucas de Castro Ramos on 29/05/19.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey {
+struct EncKeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey {
     typealias Key = Key
     
     let encoder: BinaryEnc
@@ -43,13 +43,13 @@ struct KeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey 
     func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
         let object = self.encoder.userInfo[.object] as! Encodable
         let encoder = BinaryEnc.init(superEncoder: self.encoder, for: keyType, object: object.property(by: key))
-        return KeyedEncodingContainer.init(KeyedContainer<NestedKey>.init(encoder: encoder, for: key))
+        return KeyedEncodingContainer.init(EncKeyedContainer<NestedKey>.init(encoder: encoder, for: key))
     }
     
     func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
         let object = self.encoder.userInfo[.object] as! Encodable
         let encoder = BinaryEnc.init(superEncoder: self.encoder, for: key, object: object)
-        return UnkeyedContainer.init(encoder: encoder, for: key)
+        return EncUnkeyedContainer.init(encoder: encoder, for: key)
     }
     
     func superEncoder() -> Encoder {

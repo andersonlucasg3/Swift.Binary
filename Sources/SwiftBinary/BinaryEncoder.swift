@@ -58,19 +58,19 @@ internal class BinaryEnc: Encoder {
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
         let object = self.userInfo[.object] as? Encodable
         let encoder = BinaryEnc.init(superEncoder: self, for: type, object: object)
-        return KeyedEncodingContainer.init(KeyedContainer<Key>.init(encoder: encoder, for: self.codingKey))
+        return KeyedEncodingContainer.init(EncKeyedContainer<Key>.init(encoder: encoder, for: self.codingKey))
     }
     
     func unkeyedContainer() -> UnkeyedEncodingContainer {
         let object = self.userInfo[.object] as? Encodable
         let encoder = BinaryEnc.init(writer: self.writer, object: object)
-        return UnkeyedContainer.init(encoder: encoder, for: self.codingKey)
+        return EncUnkeyedContainer.init(encoder: encoder, for: self.codingKey)
     }
     
     func singleValueContainer() -> SingleValueEncodingContainer {
         let object = self.userInfo[.object] as? Encodable
         let encoder = self.factory.create(superEncoder: self, object: object, for: nil)
-        return UnkeyedContainer.init(encoder: encoder, for: self.codingKey)
+        return EncUnkeyedContainer.init(encoder: encoder, for: self.codingKey)
     }
 }
 
