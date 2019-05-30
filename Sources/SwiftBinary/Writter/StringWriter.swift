@@ -17,7 +17,7 @@ class StringWriter: WriterProtocol, BufferedProtocol {
     }
     
     fileprivate func insert(_ value: Any) {
-        self.buffer.append("\(value)")
+        self.buffer.append("\(value)|")
     }
     
     fileprivate func insert(_ data: Data) {
@@ -25,15 +25,15 @@ class StringWriter: WriterProtocol, BufferedProtocol {
     }
     
     func insert(type: ValueType, is array: Bool) {
-        self.buffer.append("\(type.rawValue)\(array ? 1 : 0)")
+        self.buffer.append("\(type.rawValue)|\(array ? 1 : 0)|")
     }
     
     func insert(key: String) {
-        self.buffer.append("\(key.lengthOfBytes(using: .utf8))\(key)")
+        self.buffer.append("\(key.lengthOfBytes(using: .utf8))|\(key)|")
     }
     
     func insert(keyCount: Int) {
-        self.buffer.append("\(Int16.init(keyCount))")
+        self.buffer.append("\(Int16.init(keyCount))|")
     }
     
     func insert(value: Int) {
@@ -94,7 +94,7 @@ class StringWriter: WriterProtocol, BufferedProtocol {
     }
     
     fileprivate func insertArrayCount<T>(from array: Array<T>) {
-        self.buffer.append("\(array.count)")
+        self.buffer.append("\(array.count)|")
     }
     
     func insert(contentsOf array: Array<Int>) {

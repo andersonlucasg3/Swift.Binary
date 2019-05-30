@@ -15,7 +15,7 @@ struct Complex2: Codable {
     let complex: Complex
 }
 
-class SwiftBinaryTests: XCTestCase {
+class WriterEncoderTests: XCTestCase {
     #if os(Linux)
     static let allTests = [
         ("testValueTypes", testValueTypes),
@@ -107,7 +107,7 @@ class SwiftBinaryTests: XCTestCase {
         writer.insert(key: "value")
         writer.insert(value: 10)
         
-        let stringValue = "\(ValueType.int64.rawValue)0\("value".lengthOfBytes(using: .utf8))value10"
+        let stringValue = "\(ValueType.int64.rawValue)|0|\("value".lengthOfBytes(using: .utf8))|value|10|"
         assert(writer.buffer == stringValue)
     }
     
@@ -118,7 +118,7 @@ class SwiftBinaryTests: XCTestCase {
         writer.insert(key: "value")
         writer.insert(contentsOf: [1, 2, 3, 4, 5])
         
-        let stringValue = "\(ValueType.int64.rawValue)\(1)\("value".lengthOfBytes(using: .utf8))value512345"
+        let stringValue = "\(ValueType.int64.rawValue)|\(1)|\("value".lengthOfBytes(using: .utf8))|value|5|1|2|3|4|5|"
         
         assert(writer.buffer == stringValue)
     }
