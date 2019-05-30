@@ -1,13 +1,13 @@
 import XCTest
 @testable import SwiftBinary
 
-struct Complex: Codable {
+private struct Complex: Codable {
     let string: String
     let int: Int
     let arrayInt: [Int]
 }
 
-struct Complex2: Codable {
+private struct Complex2: Codable {
     let string: String
     let int: Int
     let data: Data?

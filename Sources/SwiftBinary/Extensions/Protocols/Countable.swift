@@ -11,4 +11,6 @@ protocol Countable {
     var length: Int32 { get }
     
     var data: Data { get }
+    
+    init(pointer: UnsafePointer<UInt8>, length: Int32)
 }

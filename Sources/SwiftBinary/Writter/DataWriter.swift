@@ -35,9 +35,9 @@ class DataWriter: WriterProtocol, BufferedProtocol {
     }
     
     func insert(key: String) {
-        let keyLength = key.lengthOfBytes(using: .utf8)
+        let keyLength = key.length
         self.buffer.append(self.pointer(from: keyLength))
-        self.buffer.append(key.data(using: .utf8)!)
+        self.buffer.append(key.data)
     }
     
     func insert(keyCount: Int) {

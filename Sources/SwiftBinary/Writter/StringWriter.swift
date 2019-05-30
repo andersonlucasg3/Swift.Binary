@@ -21,7 +21,8 @@ class StringWriter: WriterProtocol, BufferedProtocol {
     }
     
     fileprivate func insert(_ data: Data) {
-        self.buffer.append(String.init(data: data, encoding: .utf8)!)
+        let string = String.init(data: data, encoding: .utf8)!
+        self.buffer.append("\(string)|")
     }
     
     func insert(type: ValueType, is array: Bool) {

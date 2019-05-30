@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ReaderProtocol: class {
-    func acquire() -> ValueType
+    func acquireType() throws -> ValueType
     func acquireIsArray() -> Bool
     
     func acquireKey() -> String

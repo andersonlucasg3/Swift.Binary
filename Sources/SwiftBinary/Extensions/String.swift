@@ -15,4 +15,8 @@ extension String: Countable {
     var data: Data {
         return self.data(using: .utf8)!
     }
+    
+    init(pointer: UnsafePointer<UInt8>, length: Int32) {
+        self = String.init(cString: pointer)
+    }
 }
