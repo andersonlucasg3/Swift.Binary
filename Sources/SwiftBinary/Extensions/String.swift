@@ -17,6 +17,6 @@ extension String: Countable {
     }
     
     init(pointer: UnsafePointer<UInt8>, length: Int32) {
-        self = String.init(cString: pointer)
+        self = String.init(data: Data.init(pointer: pointer, length: length), encoding: .utf8)!
     }
 }

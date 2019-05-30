@@ -18,13 +18,12 @@ private struct Complex2: Codable {
 class ReaderDecoderTests: XCTestCase {
     #if os(Linux)
     static let allTests = [
-        ("testReader", testReader)
+        ("testStringReader", testStringReader),
+        ("testDataReader", testDataReader)
     ]
     #endif
     
-    func testReader() throws {
-        let writer = StringWriter.init()
-        
+    fileprivate func writeTests(writer: WriterProtocol) {
         writer.insert(type: .bool, is: false)
         writer.insert(value: true)
         writer.insert(type: .bool, is: false)
@@ -35,9 +34,9 @@ class ReaderDecoderTests: XCTestCase {
         writer.insert(value: "maluco doido")
         writer.insert(type: .string, is: false)
         writer.insert(value: "maluco doido 2")
-        
-        let reader = StringReader.init(buffer: writer.buffer)
-        
+    }
+    
+    fileprivate func readTests(reader: ReaderProtocol) throws {
         var type = try reader.acquireType()
         assert(type == .bool)
         assert(!reader.acquireIsArray())
@@ -59,5 +58,25 @@ class ReaderDecoderTests: XCTestCase {
         assert(type == .string)
         assert(!reader.acquireIsArray())
         assert(reader.acquire() == "maluco doido 2")
+    }
+    
+    func testStringReader() throws {
+        let writer = StringWriter.init()
+        
+        self.writeTests(writer: writer)
+        
+        let reader = StringReader.init(buffer: writer.buffer)
+        
+        try self.readTests(reader: reader)
+    }
+    
+    func testDataReader() throws {
+        let writer = DataWriter.init()
+        
+        self.writeTests(writer: writer)
+        
+        let reader = DataReader.init(data: writer.buffer)
+        
+        try self.readTests(reader: reader)
     }
 }

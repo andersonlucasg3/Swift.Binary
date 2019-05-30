@@ -21,7 +21,7 @@ class DataReader: ReaderProtocol, BufferedProtocol {
     }
     
     fileprivate func read<T: Encodable>() -> T {
-        let size = MemoryLayout<T>.size
+        let size = MemoryLayout<T>.alignment
         let ret = self.buffer.withMemoryRebound(to: T.self, capacity: 1, { $0.pointee })
         self.advance(count: size)
         return ret
