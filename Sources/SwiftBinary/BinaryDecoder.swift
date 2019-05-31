@@ -17,8 +17,6 @@ internal class BinaryDec: Decoder {
     var codingPath: [CodingKey]
     var userInfo: [CodingUserInfoKey : Any]
     
-    init(
-    
     func container<Key>(keyedBy type: Key.Type) throws -> DecKeyedContainer<Key> where Key : CodingKey {
         
     }
